@@ -1,0 +1,151 @@
+.page-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Inter', sans-serif; /* Aiming for the clean look in image */
+}
+
+.page-container h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+/* Main Profile Card */
+.profile-container {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 32px;
+    margin-bottom: 32px;
+    position: relative; /* For positioning the Edit button */
+}
+
+.user-info-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.user-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    padding: 4px;
+    border: 2px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* Ensure background doesn't block image */
+    overflow: hidden;
+}
+
+.user-details span {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.user-role {
+    background-color: #d0e7ff; /* Light blue pill[cite: 4] */
+    color: #0056b3;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 12px;
+    width: fit-content;
+}
+
+.user-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: Capitalize;
+}
+
+.edit-user {
+    cursor: pointer;
+}
+
+.user-email {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.user-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 50px;
+}
+
+.grid-item .label {
+    font-size: 0.9em;
+    color: #888;
+}
+
+
+/* Edit Button Positioned like image[cite: 4] */
+.edit-btn {
+    position: absolute;
+    right: 32px;
+    bottom: 45%; /* Centered vertically relative to text[cite: 4] */
+    text-transform: none;
+    color: #333;
+}
+
+/* Tabs Styling */
+.profile-nav {
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 24px;
+}
+
+.profile-nav span {
+    padding: 8px 0;
+    cursor: pointer;
+    font-weight: 500;
+    color: #666;
+    border-bottom: 2px solid transparent;
+}
+
+.profile-nav span.active {
+    color: #000;
+    border-bottom-color: #000; /* Black underline for active tab[cite: 4] */
+}
+
+/* Settings Grid - 2 Column Layout[cite: 4] */
+.settings-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.settings-container .MuiButton-root {
+    background-color: #f8f9fa; /* Light grey background[cite: 4] */
+    border: none;
+    color: #333;
+    padding: 20px;
+    justify-content: space-between; /* Label left, Arrow right[cite: 4] */
+    text-transform: none;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.settings-container .MuiButton-root:hover {
+    background-color: #f1f3f5;
+}
+
+.settings-label-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.settings-label-group .label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.settings-label-group .sub-label {
+    font-size: 0.8rem;
+    color: #666;
+}
