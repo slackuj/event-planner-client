@@ -7,8 +7,8 @@ import {useEffect} from "react";
 import {CircularProgress} from "@mui/material";
 import {useRefreshMutation} from "./api/apiSlice.ts";
 import {ResponsiveAppBar} from "./components/ResponsiveAppBar.tsx";
-//import {AppSideBar} from "./components/AppSideBar.tsx";
 import {useGetMeQuery} from "./features/user/userSlice.ts";
+import {SideBar} from "./components/SideBar.tsx";
 
 export const App = () => {
 
@@ -41,7 +41,7 @@ export const App = () => {
         <div className="app-layout">
             {isAuthenticated && <ResponsiveAppBar />}
             <div className="main-container">
-                {/*{!isCourseDetailsPage && <AppSideBar />}*/}
+                {isAuthenticated && <SideBar />}
                 <main className="content-area">
                     <AppRoutes />
                 </main>

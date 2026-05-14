@@ -61,7 +61,20 @@ export const RegisterPage = () => {
 
     let formContent: ReactNode = (
         <>
-            <TextField label="Email" {...register("email")} error={!!errors.email} helperText={errors.email?.message} fullWidth />
+            <TextField
+                label="Name"
+                {...register("name")}
+                error={!!errors.name}
+                helperText={errors.name?.message}
+                fullWidth
+            />
+            <TextField
+                label="Email"
+                {...register("email")}
+                error={!!errors.email}
+                helperText={errors.email?.message}
+                fullWidth
+            />
             <FormControl  variant="outlined" fullWidth>
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput

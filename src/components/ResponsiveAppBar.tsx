@@ -3,13 +3,13 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
+import ViewTimelineIcon from '@mui/icons-material/ViewTimeline';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import {useLogoutMutation} from "../api/apiSlice.ts";
 import { toast } from "react-toastify";
 import type {ApiErrorResponse} from "../types/response.ts";
@@ -64,7 +64,7 @@ export const ResponsiveAppBar = () => {
                             flexGrow: 1,
                         }}
                     >
-                        <AutoStoriesIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                        <ViewTimelineIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                         <Typography
                             variant="h6"
                             noWrap
@@ -78,7 +78,7 @@ export const ResponsiveAppBar = () => {
                                 textDecoration: 'none',
                             }}
                         >
-                            OpenCourse Academy
+                            Event Planner
                         </Typography>
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>

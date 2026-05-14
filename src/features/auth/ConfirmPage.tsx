@@ -115,6 +115,13 @@ export const ConfirmPage = () => {
                     >
                         Resend code
                     </Link>
+                    <Typography sx={{
+                        variant:"body2",
+                        mb: 3,
+                        color: "#000000"
+                    }}>
+                        <br>Don't forget to check the spam folder !!!</br>
+                    </Typography>
                 </Box>
             </Box>
         </Box>

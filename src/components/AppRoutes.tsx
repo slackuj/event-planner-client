@@ -5,6 +5,11 @@ import {LoginPage} from "../features/auth/LoginPage.tsx";
 import {RegisterPage} from "../features/auth/RegisterPage.tsx";
 import {AuthenticatedRoute} from "./AuthenticatedRoute.tsx";
 import {ResourceNotFound} from "../features/user/NotFoundPage.tsx";
+import {MyDayEventsPage} from "../features/events/MyDayEventsPage.tsx";
+import {ImportantEventsPage} from "../features/events/ImportantEvents.tsx";
+import {MyEventsPage} from "../features/events/MyEventsPage.tsx";
+import {EventRequestsPage} from "../features/events/EventRequestsPage.tsx";
+import {AllEventsPage} from "../features/events/AllEventsPage.tsx";
 //import {ResourceNotFound} from "../features/users/NotFoundPage.tsx";
 
 export const AppRoutes = () => {
@@ -29,6 +34,12 @@ export const AppRoutes = () => {
                            <UserPage />
                        </AuthenticatedRoute>}
             />
+
+            <Route path="/events/my-day" element={<AuthenticatedRoute><MyDayEventsPage /></AuthenticatedRoute>}/>
+            <Route path="/events/important" element={<AuthenticatedRoute><ImportantEventsPage /></AuthenticatedRoute>}/>
+            <Route path="/events/my-events" element={<AuthenticatedRoute><MyEventsPage /></AuthenticatedRoute>}/>
+            <Route path="/events/requests" element={<AuthenticatedRoute><EventRequestsPage /></AuthenticatedRoute>}/>
+            <Route path="/events/all" element={<AuthenticatedRoute><AllEventsPage /></AuthenticatedRoute>}/>
 
             <Route path="*" element={<ResourceNotFound/>} />
         </Routes>

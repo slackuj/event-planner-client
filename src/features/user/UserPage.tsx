@@ -7,6 +7,7 @@ import {selectCurrentUserData, useGetMeQuery} from "./userSlice.ts";
 import {useNavigate} from "react-router";
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import "./UserPage.css";
+import {EventsToolBar} from "../../components/EventsToolbar.tsx";
 //import {UpdatePasswordModal} from "../../components/UpdatePasswordModal.tsx";
 /*import {
     toggleEditUserModal,
@@ -53,8 +54,10 @@ export const UserPage = () => {
         );*/
 
     return (
+
+        <div className="page-content">
+        <EventsToolBar listTitle="Profile"/>
         <div className="page-container">
-            <h1 className="page-title">My Profile</h1>
             <div className="profile-container">
                 <div className="profile-content">
                     <div className="user-info-section">
@@ -83,8 +86,6 @@ export const UserPage = () => {
                             </div>}
                     </div>
 
-                    <hr/>
-
                     {/*<div className="user-details-grid">
                         <div className="grid-item">
                             <div className="label">Organization</div>
@@ -99,6 +100,7 @@ export const UserPage = () => {
             </div>
             <span className="settings">Settings</span>
             {/*{Settings}*/}
+        </div>
         </div>
     );
 };
