@@ -4,18 +4,32 @@ export interface Event {
     id: number;
     title: string;
     description: string;
-    event_date: Date;
+    event_date: number; // timestamp
     location_id: number | null;
     organizer_id: number;
     is_public: boolean;
     updated_at?: Date;
 }
 
+export interface EventsMetadata {
+    totalEvents: number;
+    totalPages: number;
+    page: number;
+    limit: number;
+}
+
+export interface ParticipationMetadata {
+    totalParticipation: number;
+    totalPages: number;
+    page: number;
+    limit: number;
+}
+
 export interface EventWithLocationAndOrganizer {
     id: number;
     title: string;
     description: string;
-    event_date: Date;
+    event_date: number; // timestamp
     location_name: string | null;
     organizer_email: string;
     organizer_profile_picture: string;
@@ -25,7 +39,7 @@ export interface EventWithLocationAndOrganizer {
 export interface AllEventsResponse {
     id: number;
     title: string;
-    event_date: Date;
+    event_date: number; // timestamp
     organizer_email: string;
     organizer_profile_picture: string;
     rsvp?: RSVP;
@@ -51,7 +65,7 @@ export interface EventParticipant {
     rsvp: RSVP;
 }
 
-export interface EventParticipantResponse {
+export interface EventParticipationResponse {
     id: number;
     event_id: number;
     user_id: number;
@@ -84,7 +98,12 @@ export interface EventTag {
     updated_at?: Date;
 }
 
-export type EventTagResponse = Omit<EventTag, 'id' | 'updated_at' | 'slug'>;
+export interface EventTagResponse {
+    id: number; // user_event_tags.id
+    name: string;
+    event_id: number;
+    user_id: number; // used to distinguish organizers/users tag !!!
+}
 
 export interface UserEventTag{
     id: number;

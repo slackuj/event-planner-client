@@ -12,7 +12,7 @@ import type {ApiResponse} from "../../types/response.ts";
 /*** INJECTING AUTH ENDPOINTS INTO APISLICE  ***/
 /***********************************************/
 
-export const usersApiSlice = apiSlice.injectEndpoints({
+export const userSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getMe: builder.query<User, void>({
             query: () => config.endpoints.me,
@@ -33,7 +33,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                     const { data: updatedUser } = await queryFulfilled;
                     // UPDATING RTK QUERY CACHE FOR ME
                     dispatch(
-                        usersApiSlice.util.updateQueryData('getMe', undefined, (draft) => {
+                        userSlice.util.updateQueryData('getMe', undefined, (draft) => {
                             Object.assign(draft, updatedUser);
                         })
                     );
@@ -42,16 +42,29 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 }
             },
         }),
+
+        /******************************************************************************/
+        /************* E N D P O I N T S   F O R   C L O U D I N A R Y ****************/
+        /******************************************************************************/
+        // get new signature
+        getSignature: builder.mutation<string, void>({
+            query: () => ({
+                url: config.endpoints.cloudinarySignature,
+                method: "POST",
+            }),
+            transformResponse: (response: ApiResponse<string>) => response.data,
+        }),
     }),
 });
 
 export const {
     useGetMeQuery,
     useUpdateMeMutation,
-} = usersApiSlice;
+    useGetSignatureMutation,
+} = userSlice;
 
 // selector for currentUser
-export const selectCurrentUser = usersApiSlice.endpoints.getMe.select();
+export const selectCurrentUser = userSlice.endpoints.getMe.select();
 export const selectCurrentUserData = createSelector(
     [selectCurrentUser],
     result => result.data ?? undefined

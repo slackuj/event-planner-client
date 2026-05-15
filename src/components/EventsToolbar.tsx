@@ -6,6 +6,7 @@ import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import AddIcon from '@mui/icons-material/Add';
 import './EventsToolbar.css';
 
 interface EventsToolBarProps {
@@ -37,6 +38,7 @@ export const EventsToolBar = (props: EventsToolBarProps) => {
                     </h2>
                 </div>
             </div>
+            {props.listTitle !== "Profile" && <button className="add-event"><AddIcon/> New Event</button>}
         </div>
     )
 };

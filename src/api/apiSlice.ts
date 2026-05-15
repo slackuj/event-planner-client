@@ -16,6 +16,10 @@ export const apiSlice = createApi({
     baseQuery: baseQueryWithReAuth,
     tagTypes: [
         'Me',
+        'Events',
+        'EventWithLocationAndOrganizer',
+        'EventTags',
+        'EventsParticipation',
     ],
     endpoints: (builder) => ({
         login: builder.mutation< LoginResponseData, UserLoginRequest>({

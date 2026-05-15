@@ -11,6 +11,7 @@ export const config = {
         updatePassword: "/auth/update-password",
         users: "/users",
         me: "/users/me",
+        events: "/events",
     },
     CLOUDINARY_CLOUD_NAME: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
     CLOUDINARY_API_KEY: import.meta.env.VITE_CLOUDINARY_API_KEY,
