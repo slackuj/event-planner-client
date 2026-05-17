@@ -21,8 +21,10 @@ import { useLoginMutation } from "../../api/apiSlice.ts";
 import { getUserAuth, } from "./authSlice.ts";
 import type { ApiErrorResponse } from "../../types/response.ts";
 import "./LoginPage.css";
+import {useModalGuard} from "../../hooks/eventHooks.ts";
 
 export const LoginPage = () => {
+    useModalGuard();
     const location = useLocation();
     const notAuthenticated = location?.state?.notAuthenticated as boolean;
     const [loginUser, { isLoading, isSuccess }] = useLoginMutation();

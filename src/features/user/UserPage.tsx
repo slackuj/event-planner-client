@@ -8,6 +8,7 @@ import {useNavigate} from "react-router";
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import "./UserPage.css";
 import {EventsToolBar} from "../../components/EventsToolbar.tsx";
+import {useModalGuard} from "../../hooks/eventHooks.ts";
 //import {UpdatePasswordModal} from "../../components/UpdatePasswordModal.tsx";
 /*import {
     toggleEditUserModal,
@@ -20,6 +21,7 @@ export const UserPage = () => {
     //const dispatch = useAppDispatch();
     //const { pathname } = useLocation();
     //const isCurrentUser = pathname === "/my-profile";
+    useModalGuard();
     const navigate = useNavigate();
 
 

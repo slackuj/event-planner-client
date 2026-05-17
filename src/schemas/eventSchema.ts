@@ -10,12 +10,12 @@ export const CreateEventRequestSchema = z.object({
     description: z.string()
         .min(10, "Description must be at least 10 characters long")
         .max(1000, "Description is too long"),
-    event_date: z.coerce.date(),
-    is_public: z.boolean().default(false),
+    event_date: z.string(),
+    is_public: z.boolean(),
     location_name: z.string()
         .min(5, "Location must be at least 5 characters long")
         .max(255, "Location is too long")
-        .optional(),
+        .nullable(),
 });
 
 /**

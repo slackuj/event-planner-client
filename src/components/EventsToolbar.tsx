@@ -8,6 +8,9 @@ import FolderSharedOutlinedIcon from '@mui/icons-material/FolderSharedOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
 import './EventsToolbar.css';
+import {toggleDialogModal} from "../store/slices/modalsSlice.ts";
+import {useAppDispatch} from "../hooks/storeHooks.ts";
+import {AddEventModal} from "./AddEventModal.tsx";
 
 interface EventsToolBarProps {
     listTitle: string;
@@ -27,6 +30,8 @@ export const EventsToolBar = (props: EventsToolBarProps) => {
     let titleIcon: ReactNode;
     titleIcon = LIST_ICON[props.listTitle];
 
+    const dispatch = useAppDispatch();
+
     return (
         <div className="eventsToolBar">
             <div className="eventsToolBarContainer">
@@ -38,7 +43,21 @@ export const EventsToolBar = (props: EventsToolBarProps) => {
                     </h2>
                 </div>
             </div>
-            {props.listTitle !== "Profile" && <button className="add-event"><AddIcon/> New Event</button>}
+            {props.listTitle !== "Profile" &&
+                <button
+                    className="add-event"
+                    onClick={() => {
+                        // Get the currently focused element
+                        const buttonElement = document.activeElement as HTMLElement;
+                        // Remove focus from the button
+                        buttonElement.blur();
+                        dispatch(toggleDialogModal());
+                    }}
+                >
+                    <AddIcon/> New Event
+                </button>
+            }
+            <AddEventModal/>
         </div>
     )
 };

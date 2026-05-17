@@ -20,8 +20,10 @@ import {UserRegisterRequestSchema} from "../../schemas/authSchema";
 import type {UserRegisterRequest} from "../../types/auth.ts";
 import * as React from "react";
 import {Visibility, VisibilityOff } from "@mui/icons-material";
+import {useModalGuard} from "../../hooks/eventHooks.ts";
 
 export const RegisterPage = () => {
+    useModalGuard();
     const [registerUser, { isLoading}] = useRegisterMutation();
     const navigate = useNavigate();
 

@@ -40,6 +40,7 @@ export interface AllEventsResponse {
     id: number;
     title: string;
     event_date: number; // timestamp
+    is_public: boolean;
     organizer_email: string;
     organizer_profile_picture: string;
     rsvp?: RSVP;
@@ -51,7 +52,22 @@ export interface CreateEventData extends Omit<Event, 'id' | 'location_id'> {
 }
 
 // client request
-export type CreateEventRequest = Omit<CreateEventData, 'organizer_id' | 'updated_at'>;
+export interface CreateEventRequestForm {
+    location_name: string | null;
+    title: string;
+    description: string;
+    event_date: string;
+    is_public: boolean;
+}
+
+export interface CreateEventRequest {
+    location_name: string | null;
+    title: string;
+    description: string;
+    event_date: number;
+    is_public: boolean;
+}
+
 export type UpdateEventRequest = Partial<Omit<CreateEventRequest, 'location_name'>>;
 export interface UpdateEventLocationRequest {
     location_name: string;

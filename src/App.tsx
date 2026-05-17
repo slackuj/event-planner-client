@@ -9,6 +9,7 @@ import {useRefreshMutation} from "./api/apiSlice.ts";
 import {ResponsiveAppBar} from "./components/ResponsiveAppBar.tsx";
 import {useGetMeQuery} from "./features/user/userSlice.ts";
 import {SideBar} from "./components/SideBar.tsx";
+import {EventModal} from "./components/EventModal.tsx";
 
 export const App = () => {
 
@@ -45,6 +46,9 @@ export const App = () => {
                 <main className="content-area">
                     <AppRoutes />
                 </main>
+                <div id="event-modal">
+                    <EventModal />
+                </div>
             </div>
             <ToastContainer position="bottom-right" autoClose={3000} />
         </div>

@@ -5,11 +5,11 @@ export interface EventTagsQueryParams {
 export interface AllEventsQueryParams {
     page: number;
     isParticipating: boolean;
-    isPublic: boolean;
+    isPublic: boolean | undefined;
     isRequested: boolean; // for event requests ---> rsvp === 'AWAITING', requested and not responded yet
     isOrganized: boolean;
 }
 
-export interface ParticipationsQueryParams {
+export interface ParticipationQueryParams {
     page: number;
 }

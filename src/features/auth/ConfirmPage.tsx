@@ -4,8 +4,10 @@ import { Box, Button, TextField, Typography, Link, Stack } from "@mui/material";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { useConfirmMutation, useResendConfirmationCodeMutation } from "../../api/apiSlice.ts";
+import {useModalGuard} from "../../hooks/eventHooks.ts";
 
 export const ConfirmPage = () => {
+    useModalGuard();
     const location = useLocation();
     const navigate = useNavigate();
     const [verify, { isLoading }] = useConfirmMutation();
@@ -120,7 +122,7 @@ export const ConfirmPage = () => {
                         mb: 3,
                         color: "#000000"
                     }}>
-                        <br>Don't forget to check the spam folder !!!</br>
+                        Don't forget to check the spam folder !!!
                     </Typography>
                 </Box>
             </Box>

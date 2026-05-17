@@ -1,8 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 import SearchOffIcon from '@mui/icons-material/SearchOff';
+import {useModalGuard} from "../../hooks/eventHooks.ts";
 
 export const ResourceNotFound = () => {
+    useModalGuard();
     const navigate = useNavigate();
 
     return (
