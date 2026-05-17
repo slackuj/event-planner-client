@@ -172,7 +172,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
                     : [{ type: "EventTags", id: `${arg.event_id}-${arg.params.fetchEventOrganizersTags}` }],
         }),
         // create new event tag
-        addEventTag: builder.mutation<EventTagResponse, {event_id: number, isOrganizer: boolean, data: CreateEventTagRequest}>({
+        addEventTag: builder.mutation<EventTagResponse, {event_id: number, organizer_email: string, isOrganizer: boolean, data: CreateEventTagRequest}>({
             query: (request) => ({
                 url: `${config.endpoints.events}/${request.event_id}/tags`,
                 method: "POST",
@@ -180,13 +180,14 @@ export const eventsSlice = apiSlice.injectEndpoints({
             }),
             transformResponse: (response: ApiResponse<EventTagResponse>) => response.data,
             // TRY TO USE SIMILAR APPROACH FOR ---->>> ADD LOCATION ENDPOINT !!!!!!!!!
-            async onQueryStarted({ event_id, isOrganizer }, { dispatch, queryFulfilled }) {
+            async onQueryStarted({ event_id, organizer_email, isOrganizer }, { dispatch, queryFulfilled }) {
                 try {
                     const { data: newTag } = await queryFulfilled;
 
                     // Target the specific "bucket" that matches the selector's parameters
                     const cacheParams = {
                         event_id,
+                        organizer_email,
                         params: { fetchEventOrganizersTags: isOrganizer }
                     };
 
@@ -204,15 +205,16 @@ export const eventsSlice = apiSlice.injectEndpoints({
         }),
 
         // delete event tag
-        deleteEventTag: builder.mutation<{success: boolean}, { event_id: number; tag_id: number; isOrganizer: boolean }>({
-            query: ({ event_id, tag_id }) => ({
-                url: `${config.endpoints.events}/${event_id}/tags/${tag_id}`,
+        deleteEventTag: builder.mutation<{success: boolean}, { event_id: number; organizer_email: string, tag_id: number; isOrganizer: boolean }>({
+            query: (request) => ({
+                url: `${config.endpoints.events}/${request.event_id}/tags/${request.tag_id}`,
                 method: "DELETE",
             }),
-            async onQueryStarted({ event_id, tag_id, isOrganizer }, { dispatch, queryFulfilled }) {
+            async onQueryStarted({ event_id, organizer_email, tag_id, isOrganizer }, { dispatch, queryFulfilled }) {
                 // Target the same cache bucket the selector is watching
                 const cacheParams = {
                     event_id,
+                    organizer_email,
                     params: { fetchEventOrganizersTags: isOrganizer }
                 };
 

@@ -129,7 +129,9 @@ export interface UserEventTag{
     updated_at?: Date;
 }
 
-export type CreateEventTagRequest = Omit<EventTag, 'id' | 'slug'>;
+export interface CreateEventTagRequest {
+    tag_name: string;
+}
 export interface CreateUserEventTagRequest extends Omit<UserEventTag, 'id' | 'tag_id'>{
     tag_name: string;
     organizer_id: number;

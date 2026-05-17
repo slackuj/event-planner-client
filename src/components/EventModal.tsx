@@ -17,6 +17,7 @@ import {toast} from "react-toastify";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from "@mui/material/Tooltip";
+import {Tags} from "./EventTags.tsx";
 
 export const EventModal = () => {
 
@@ -57,7 +58,7 @@ export const EventModal = () => {
     } = useModal();*/
 
     if (!focusedEvent) {
-        return <div>Nothing to display</div>;
+        return null;
     }
 
     if (isLoadingEvent) {
@@ -124,7 +125,7 @@ export const EventModal = () => {
                 <div className="details-header">
                     <h2
                         className="details-header"
-                        contentEditable={isEditable && !!isOrganizer}
+                        contentEditable={isEditable && isOrganizer}
                         suppressContentEditableWarning={true}
                         onBlur={handleEventTitle}
                     >{focusedEvent.title}</h2>
@@ -139,7 +140,7 @@ export const EventModal = () => {
                 </div>
                 <div className="event-description">
                     {
-                        !!isOrganizer
+                        isOrganizer
                             ?
                             <textarea
                                 key={focusedEvent.id}
@@ -154,12 +155,15 @@ export const EventModal = () => {
                             <span>{focusedEvent.description}</span>
                     }
                 </div>
+                <div className="event-tags">
+                    <Tags />
+                </div>
                 <div className="modal-footer">
                     <ExitToAppIcon
                         className="hide-modal-btn"
                         onClick={handleModalClose}
                     />
-                    { !!isOrganizer && <Tooltip title="Delete Event">
+                    { isOrganizer && <Tooltip title="Delete Event">
                     <DeleteIcon
                         className="delete-btn"
                         onClick={handleDeletion}

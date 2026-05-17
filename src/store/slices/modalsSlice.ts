@@ -73,5 +73,6 @@ export const selectIsAlertDialogModalOpen = (state: RootState) => state.modals.i
 export const selectAlertDialogModalTitle = (state: RootState) => state.modals.dialogModalTitle;
 export const selectAlertDialogModalContent = (state: RootState) => state.modals.dialogModalContent;
 export const selectAlertDialogModalActionBtn = (state: RootState) => state.modals.dialogModalActionBtn;
+export const selectFocusedEventsOrganizersEmail = (state: RootState) => state.modals.focusedEventsOrganizersEmail;
 // compares modals.focusedEventsOrganizersEmail with auth.email to return if the current user is organizer of the event or not !!!!
-export const selectIsOrganizer = (state: RootState) => state.auth.email && state.modals.focusedEventsOrganizersEmail && state.auth.email === state.modals.focusedEventsOrganizersEmail;
+export const selectIsOrganizer = (state: RootState) => !!state.auth.email && !!state.modals.focusedEventsOrganizersEmail && state.auth.email === state.modals.focusedEventsOrganizersEmail;

@@ -83,7 +83,7 @@ const Participant = ({participant, setFocusedParticipantId}: ParticipantProps) =
     return (
         <div className="participantEmail-container">
             <span className="participant-avatar"><Avatar alt="" src={participant.user_profile_picture} /> {participant.user_email}</span>
-            { !!isOrganizer && <Tooltip title="Remove participant">
+            { isOrganizer && <Tooltip title="Remove participant">
                 <CloseIcon
                     className="delete-participant-btn"
                     onClick={() => {
@@ -136,7 +136,7 @@ export const Participants = () => {
 
     return (
         <div className="participants-container">
-            { !!isOrganizer && <ParticipantsAdder />}
+            { isOrganizer && <ParticipantsAdder />}
             {participants}
             <AlertDialogModal onConfirm={handleDeletion}/>
         </div>

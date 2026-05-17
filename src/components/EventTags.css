@@ -1,0 +1,83 @@
+.tags-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.tag-container {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    gap: 12px;
+    border-bottom: 1px solid #f3f2f1;
+    transition: background-color 0.1s ease;
+}
+
+.tag-container:hover {
+    background-color: #f3f2f1;
+}
+
+.tag-input {
+    flex: 1;
+    font-size: 14px;
+    color: #323130;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 4px 0;
+    cursor: text;
+}
+
+.tag-completed-title {
+    text-decoration: line-through;
+    color: #a19f9d;
+}
+
+.tag-completed-title.disabled {
+    text-decoration: none;
+    color: #323130;
+}
+
+.delete-tag-btn {
+    color: #605e5c;
+    font-size: 14px;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.2s;
+    cursor: pointer;
+}
+
+.tag-container:hover .delete-tag-btn {
+    opacity: 1; /* Show delete icon on row hover */
+}
+
+.delete-tag-btn:hover {
+    color: #a4262c;
+}
+
+.tagAdder-container {
+    margin-top: 4px;
+}
+
+.add-tag-icon {
+    font-size: 20px;
+    color: #2564cf;
+}
+
+.tag-input::placeholder {
+    color: #2564cf;
+    font-weight: 400;
+}
+
+.addButtonButton {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0 4px;
+    color: #2564cf;
+}
+
+.addButtonButton:hover {
+    text-decoration: underline;
+}
