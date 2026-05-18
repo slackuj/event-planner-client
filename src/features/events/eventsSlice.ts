@@ -102,9 +102,9 @@ export const eventsSlice = apiSlice.injectEndpoints({
             },
         }),
         // update event location ---->    "/:event_id/location",
-        updateEventLocation: builder.mutation<EventWithLocationAndOrganizer, ({id: number, data: UpdateEventLocationRequest})>({
-            query: ({id, data }) => ({
-                url: `${config.endpoints.events}/${id}/location`,
+        updateEventLocation: builder.mutation<EventWithLocationAndOrganizer, ({event_id: number, data: UpdateEventLocationRequest})>({
+            query: ({event_id, data }) => ({
+                url: `${config.endpoints.events}/${event_id}/location`,
                 method: "PATCH",
                 body: data,
             }),
@@ -112,7 +112,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
             invalidatesTags: (_result, _error, arg) =>
                 //[{ type: "Events", id: 'LIST'}, { type: "EventWithLocationAndOrganizer", id: arg.id }],
                 // THIS SHOULD WORK FOR EVENTS CACHE, --- */*@# DO CHECK LATER...
-                [{ type: "Events", id: arg.id}],
+                [{ type: "Events", id: arg.event_id}],
             /***********************************************************************************************************
              P E S S I M I S T I C    U P D A T E    O F    C A C H E
              ***********************************************************************************************************/
@@ -121,7 +121,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
                     const {data: updatedEvent} = await queryFulfilled;
                     // UPDATING RTK QUERY CACHE FOR THE EVENT
                     dispatch(
-                        eventsSlice.util.updateQueryData('getEvent', request.id, (draft) => {
+                        eventsSlice.util.updateQueryData('getEvent', request.event_id, (draft) => {
                             Object.assign(draft, updatedEvent);
                         })
                     );

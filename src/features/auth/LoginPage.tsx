@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useAppSelector } from "../../hooks/storeHooks.ts";
 import {
     Box,
@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { UserLoginRequestSchema } from "../../schemas/authSchema";
-import type { UserLoginRequest } from "../../types/auth.ts";
+import type {UnconfirmedUserResponse, UserLoginRequest} from "../../types/auth.ts";
 import { useLoginMutation } from "../../api/apiSlice.ts";
 import { getUserAuth, } from "./authSlice.ts";
 import type { ApiErrorResponse } from "../../types/response.ts";
@@ -25,8 +25,8 @@ import {useModalGuard} from "../../hooks/eventHooks.ts";
 
 export const LoginPage = () => {
     useModalGuard();
-    const location = useLocation();
-    const notAuthenticated = location?.state?.notAuthenticated as boolean;
+    //const location = useLocation();
+    //const notAuthenticated = location?.state?.notAuthenticated as boolean;
     const [loginUser, { isLoading, isSuccess }] = useLoginMutation();
     const navigate = useNavigate();
     const isAuthenticated = useAppSelector(getUserAuth);
@@ -45,7 +45,16 @@ export const LoginPage = () => {
     const onSubmit = async (data: UserLoginRequest) => {
         try {
             const response = await loginUser(data).unwrap();
-            navigate(response.next);
+            //console.log(response);
+            if ("expires_at" in response) {
+                const { email, expires_at } = response as UnconfirmedUserResponse ;
+                console.log("i am here");
+            navigate(response.next, { state: { email, expires_at } });
+            }
+            else if ("accessToken" in response) {
+                navigate(response.next);
+            }
+            //console.log("i am here ***");
         } catch (error) {
             const err = error as { data: ApiErrorResponse };
             toast.error(err.data?.message || "Failed to log in");
@@ -57,10 +66,10 @@ export const LoginPage = () => {
         if (isAuthenticated && !isSuccess) {
             navigate('/dashboard');
         }
-        if (notAuthenticated) {
+        /*if (notAuthenticated) {
             toast.info("Please login first!");
-        }
-    }, [notAuthenticated, isAuthenticated, isSuccess, navigate]);
+        }*/
+    }, [isAuthenticated, isSuccess, navigate]);
 
     return (
         <Box className="login-container" sx={{ display: 'flex', minHeight: '100vh' }}>

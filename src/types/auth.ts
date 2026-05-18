@@ -31,10 +31,25 @@ export interface UserConfirmationRequest  {
     code: string;
 }
 
-export interface LoginResponseData {
-    accessToken: string;
-    next: "/confirmMe" | "/dashboard";
+export interface UnconfirmedUserResponse {
+    email: string;
+    expires_at: Date;
+    next: "/users/confirm";
 }
+
+export interface ConfirmedUserResponse{
+    accessToken: string;
+    user: {
+        id: number;
+        name: string;
+        email: string;
+        profile_picture: string;
+        updated_at?: Date;
+    };
+    next: "/dashboard";
+}
+
+export type LoginResponseData  = UnconfirmedUserResponse | ConfirmedUserResponse;
 
 export interface PasswordUpdateResponse {
     accessToken: string;
@@ -46,5 +61,5 @@ export interface RefreshResponseData {
 
 export interface RegisterResponseData {
     email: string;
-    expiresAt: number;// expiry timestamp
+    expires_at: number;// expiry timestamp
 }

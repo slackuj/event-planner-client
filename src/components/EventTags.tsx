@@ -30,7 +30,9 @@ const TagsAdder = () => {
     const handleTag = (e: ChangeEvent<HTMLInputElement>) => ( setTag(e.target.value));
     const handleAddNewTag = async () => {
         try{
-            const data = { tag_name: tag };
+            // create LocationTag component and implement capitalization there too.
+            const tag_name = tag.trim().replace(/\b\w/g, c => c.toUpperCase());
+            const data = { tag_name };
         await addNewTag({event_id: focusedEventId, organizer_email: organizer_email!, isOrganizer: isOrganizer, data}).unwrap();
         setTag("");
         } catch(err){

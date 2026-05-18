@@ -1,0 +1,84 @@
+.location-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.locationAdder-container {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    gap: 12px;
+    border-bottom: 1px solid #f3f2f1;
+    transition: background-color 0.1s ease;
+}
+
+/* Hover effect on the container row when showing an active location */
+.locationAdder-container:has(.location-name):hover {
+    background-color: #f3f2f1;
+}
+
+/* --- Input Bar Configurations --- */
+.location-input {
+    flex: 1;
+    font-size: 14px;
+    color: #323130;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 4px 0;
+    cursor: text;
+}
+
+.add-location-icon {
+    font-size: 20px !important;
+    color: #2564cf;
+}
+
+.location-input::placeholder {
+    color: #2564cf;
+    font-weight: 400;
+}
+
+/* --- Action Buttons --- */
+.updateLocationButton {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0 4px;
+    color: #2564cf;
+}
+
+.updateLocationButton:hover {
+    text-decoration: underline;
+}
+
+/* --- Existing Active Location View --- */
+.location-name {
+    flex: 1;
+    font-size: 14px;
+    color: #323130;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 4px 0;
+}
+
+.delete-location-btn {
+    color: #605e5c !important;
+    font-size: 14px !important;
+    opacity: 0; /* Hidden by default matching EventParticipation specs */
+    transition: opacity 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+/* Reveal the close icon cleanly when the user hovers over the active layout row */
+.locationAdder-container:hover .delete-location-btn {
+    opacity: 1;
+}
+
+.delete-location-btn:hover {
+    color: #a4262c !important;
+}

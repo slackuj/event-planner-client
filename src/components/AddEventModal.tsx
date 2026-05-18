@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
@@ -21,6 +21,11 @@ import { selectIsDialogModalOpen, toggleDialogModal } from "../store/slices/moda
 import { CreateEventRequestSchema } from "../schemas/eventSchema.ts";
 import { useAddEventMutation } from "../features/events/eventsSlice.ts";
 import type {CreateEventRequestForm} from "../types/event.ts";
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {Dayjs} from "dayjs";
+import {useState} from "react";
 
 export const AddEventModal = () => {
     const dispatch = useAppDispatch();
@@ -28,14 +33,14 @@ export const AddEventModal = () => {
     const isDialogBoxOpen = useAppSelector(selectIsDialogModalOpen);
 
     const [addEvent, { isLoading: isAdding }] = useAddEventMutation();
-    let date = new Date().toISOString();
-    date=  date.substring(0, date.indexOf("T") + 6);
+    const [datetime, setDatetime]  = useState<Dayjs | null>(null);
 
     const {
         handleSubmit,
         register,
         formState: { errors },
-        reset
+        reset,
+        control,
     } = useForm<CreateEventRequestForm>({
         resolver: zodResolver(CreateEventRequestSchema),
         mode: "onBlur",
@@ -46,13 +51,16 @@ export const AddEventModal = () => {
 
     const handleCancel = () => {
         reset();
+        setDatetime(null);
         dispatch(toggleDialogModal());
     };
 
     const onSubmit = async (values: CreateEventRequestForm) => {
         try {
             // Convert the HTML datetime string into a timestamp number
-            const timestamp = new Date(values.event_date).getTime();
+            //console.log(values);
+            const timestamp = Number(values.event_date);
+            //console.log(timestamp);
 
             if (isNaN(timestamp)) {
                 toast.error("Please select a valid date and time.");
@@ -121,16 +129,35 @@ export const AddEventModal = () => {
                             disabled={isAdding}
                         />
 
-                        <TextField
-                            label={"DateTime"}
-                            defaultValue= {date}
-                            type="datetime-local"
-                            {...register("event_date")}
-                            error={!!errors.event_date}
-                            helperText={errors.event_date?.message}
-                            fullWidth
-                            disabled={isAdding}
-                        />
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <Controller
+                                name="event_date"
+                                control={control}
+                                render={({ field: { onChange} }) => (
+                                    <DateTimePicker
+                                        label="Event DateTime"
+                                        value={datetime}
+                                        disablePast={true}
+                                        // handel event_date typing later
+                                        onChange={(newValue) => {
+                                            setDatetime(newValue);
+                                            onChange(String(newValue?.valueOf()));
+                                        }}
+                                        /*onAccept={(newValue) => {
+                                            console.log("new datetime:", newValue);
+                                        }}*/
+                                        disabled={isAdding}
+                                        slotProps={{
+                                            textField: {
+                                                error: !!errors.event_date,
+                                                helperText: errors.event_date?.message as string,
+                                                fullWidth: true
+                                            }
+                                        }}
+                                    />
+                                )}
+                            />
+                        </LocalizationProvider>
 
                         <TextField
                             label="Location Name (Optional)"

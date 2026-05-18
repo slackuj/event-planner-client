@@ -21,7 +21,7 @@ html, body, #root {
 /* Sidebar styling */
 .sidebar {
     width: 240px;
-    background-color: #f8f9fa;
+    background-color: white;
     border-right: 1px solid #ddd;
     overflow-y: auto;
     flex-shrink: 0; /* Prevents sidebar from squishing */
@@ -67,5 +67,5 @@ html, body, #root {
     flex: 1;
     overflow-y: auto; /* Independent scrolling for the page content */
     padding: 20px;
-    background-color: #ffffff;
+    background-color: #f8f9fa;
 }

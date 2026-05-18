@@ -25,8 +25,8 @@ export const ConfirmPage = () => {
     if (!location.state?.email) return null;
 
     const email: string = location.state.email;
-    const expiresAt: number = location.state.expiresAt;
-    const [_expiry, setExpiry] = useState(expiresAt);
+    const expires_at: number = location.state.expires_at;
+    const [_expiry, setExpiry] = useState(expires_at);
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: { code: "" }
@@ -45,7 +45,7 @@ export const ConfirmPage = () => {
     const handleResend = async () => {
         try {
             const response = await resendCode({ email }).unwrap();
-            setExpiry(response.expiresAt);
+            setExpiry(response.expires_at);
             toast.info("New code sent to your email");
         } catch (error: any) {
             toast.error("Failed to resend code");
