@@ -20,6 +20,7 @@ import Tooltip from "@mui/material/Tooltip";
 import {Tags} from "./EventTags.tsx";
 import {EventDateTime} from "./EventDateTime.tsx";
 import {EventLocation} from "./EventLocation.tsx";
+import {EventRSVP} from "./rsvp.tsx";
 
 export const EventModal = () => {
 
@@ -132,6 +133,9 @@ export const EventModal = () => {
                         onBlur={handleEventTitle}
                     >{focusedEvent.title}</h2>
                     <div>{LIST_ICON["Important"]}</div>
+                </div>
+                <div className="event-rsvp">
+                   <EventRSVP event_date={focusedEvent.event_date}/>
                 </div>
                 <div className="event-location">
                     <EventLocation location_name={focusedEvent.location_name} event_date={focusedEvent.event_date} />

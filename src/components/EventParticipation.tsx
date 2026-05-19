@@ -89,7 +89,7 @@ const Participant = ({ participant, setFocusedParticipantId }: ParticipantProps)
                 return <CancelIcon className="rsvp-badge-icon no" />;
             case "MAYBE":
                 return <HelpIcon className="rsvp-badge-icon maybe" />;
-            case "WAITING":
+            case "AWAITING":
             default:
                 return <AccessTimeFilledIcon className="rsvp-badge-icon awaiting" />;
         }

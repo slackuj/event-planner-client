@@ -7,6 +7,8 @@ import {useAppSelector} from "../../hooks/storeHooks.ts";
 import {CircularProgress, TablePagination} from "@mui/material";
 import {EventsTable} from "../../components/EventsTable.tsx";
 import {useModalGuard} from "../../hooks/eventHooks.ts";
+import {DEFAULT_END_DATE, DEFAULT_START_DATE} from "../../constants/appConstants.ts";
+import {EventsFilter} from "../../components/EventsFilter.tsx";
 
 export const EventRequestsPage = () => {
 
@@ -16,7 +18,10 @@ export const EventRequestsPage = () => {
             isParticipating: true,
             isPublic: undefined,
             isOrganized: false,
-            isRequested: true
+            isRequested: true,
+            start_date: DEFAULT_START_DATE,
+            end_date: DEFAULT_END_DATE,
+            sort_order: "desc",
         });
         const [page, setPage] = useState<number>(0);
 
@@ -38,8 +43,36 @@ export const EventRequestsPage = () => {
             return <div>Error Loading Events...</div>;
         }
 
+    // Handle updates coming from the Filters Bar component
+    const handleFilterChanges = (updatedFilters: Partial<Pick<AllEventsQueryParams, 'start_date' | 'end_date' | 'sort_order'>>) => {
+        setPage(0); // Reset page selection to index 0 on update
+        setParams((prev) => ({
+            ...prev,
+            ...updatedFilters,
+            page: 1
+        }));
+    };
+
+    // Handle clearing date range constraints
+    const handleResetFilters = () => {
+        setPage(0);
+        setParams((prev) => ({
+            ...prev,
+            startDate: DEFAULT_START_DATE,
+            endDate: DEFAULT_END_DATE,
+            page: 1
+        }));
+    };
+
         const eventTable: ReactNode = (
             <>
+                <EventsFilter
+                    start_date={params.start_date}
+                    end_date={params.end_date}
+                    sort_order={params.sort_order}
+                    onFilterChange={handleFilterChanges}
+                    onReset={handleResetFilters}
+                />
                 <EventsTable events={events}/>
                 <TablePagination
                     component="div"

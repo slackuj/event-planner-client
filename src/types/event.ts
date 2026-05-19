@@ -1,4 +1,4 @@
-export type RSVP = "YES" | "NO" | "MAYBE" | "WAITING";
+export type RSVP = "YES" | "NO" | "MAYBE" | "AWAITING";
 
 export interface Event {
     id: number;
@@ -88,6 +88,10 @@ export interface EventParticipationResponse {
     user_email: string;
     user_profile_picture: string;
     rsvp: RSVP;
+}
+
+export interface ParticipationResponse {
+    rsvp: RSVP | undefined;
 }
 
 export interface LocationTag {

@@ -1,0 +1,95 @@
+.rsvp-section-container {
+    display: flex;
+    padding: 12px 16px;
+    gap: 8px;
+    border-bottom: 1px solid #f3f2f1;
+    position: relative;
+    align-items: center;
+}
+
+.rsvp-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #323130;
+}
+
+.rsvp-options-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* --- Base Button Config --- */
+.rsvp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    background-color: #ffffff;
+    color: #323130;
+    border: 1px solid #d2d0ce;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.rsvp-btn .rsvp-icon {
+    font-size: 16px !important;
+    color: #605e5c;
+    transition: color 0.15s ease;
+}
+
+/* --- Hover Modifiers --- */
+.rsvp-btn:hover:not(:disabled) {
+    background-color: #f3f2f1;
+    border-color: #a19f9d;
+}
+
+/* --- Active & Styled States --- */
+/* Yes State */
+.rsvp-btn.active {
+    background-color: #2564cf;
+    color: white;
+    border-color: #107c41;
+}
+
+
+/* --- Pending State Layout --- */
+.rsvp-status-awaiting {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #605e5c;
+    margin-left: auto;
+    font-style: italic;
+}
+
+.rsvp-icon.awaiting {
+    font-size: 16px !important;
+    color: #0078d4;
+}
+
+/* --- Loaders & Disabled Mechanics --- */
+.rsvp-loading-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    border-bottom: 1px solid #f3f2f1;
+}
+
+.rsvp-inline-loader {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+}
+
+.rsvp-section-container.disabled .rsvp-btn {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background-color: #f3f2f1;
+    border-color: #e1dfdd;
+}

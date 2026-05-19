@@ -8,6 +8,9 @@ export interface AllEventsQueryParams {
     isPublic: boolean | undefined;
     isRequested: boolean; // for event requests ---> rsvp === 'AWAITING', requested and not responded yet
     isOrganized: boolean;
+    start_date: number; // timestamp
+    end_date: number; // timestamp
+    sort_order: "asc" | "desc";
 }
 
 export interface ParticipationQueryParams {

@@ -5,7 +5,8 @@ import type {
     AllEventsResponse,
     CreateEventRequest, CreateEventTagRequest, EventParticipationResponse,
     EventsMetadata, EventTagResponse,
-    EventWithLocationAndOrganizer, ParticipationMetadata, UpdateEventLocationRequest, UpdateEventRequest
+    EventWithLocationAndOrganizer, ParticipationMetadata,
+    ParticipationResponse, RSVP, UpdateEventLocationRequest, UpdateEventRequest
 } from "../../types/event.ts";
 import { createEntityAdapter, createSelector, type EntityState } from "@reduxjs/toolkit";
 import type {AllEventsQueryParams, EventTagsQueryParams, ParticipationQueryParams} from "../../types/QueryParams.ts";
@@ -263,7 +264,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
         }),
 
         // get event participation by user_id
-        getEventParticipation: builder.query<EventParticipationResponse, { event_id: number; user_id: number }>({
+        getEventParticipation: builder.query<ParticipationResponse, { event_id: number; user_id: number }>({
             query: ({ event_id, user_id }) => ({
                 url: `${config.endpoints.events}/${event_id}/participation/${user_id}`,
                 method: "GET",
@@ -273,7 +274,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
         }),
 
         // add event participation : used by user or organizer
-        addEventParticipation: builder.mutation<EventParticipationResponse, { event_id: number; rsvp: string, email?: string }>({
+        addEventParticipation: builder.mutation<EventParticipationResponse, { event_id: number; rsvp: RSVP, email?: string }>({
             query: ({ event_id, rsvp, email }) => ({
                 url: `${config.endpoints.events}/${event_id}/participation`,
                 method: "POST",
@@ -289,7 +290,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
         }),
 
         // upsert event participation : used by user or organizer
-        updateEventParticipation: builder.mutation<EventParticipationResponse, { event_id: number; user_id: number; rsvp: string }>({
+        updateEventParticipation: builder.mutation<EventParticipationResponse, { event_id: number; user_id: number; rsvp: Omit<RSVP, 'AWAITING'> }>({
             query: ({ event_id, rsvp }) => ({
                 url: `${config.endpoints.events}/${event_id}/participation`,
                 method: "PATCH",
