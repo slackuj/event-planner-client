@@ -58,8 +58,9 @@ export const EventRequestsPage = () => {
         setPage(0);
         setParams((prev) => ({
             ...prev,
-            startDate: DEFAULT_START_DATE,
-            endDate: DEFAULT_END_DATE,
+            start_date: DEFAULT_START_DATE,
+            end_date: DEFAULT_END_DATE,
+            sort_order: "desc",
             page: 1
         }));
     };

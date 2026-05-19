@@ -7,6 +7,7 @@ import {useAppSelector} from "../../hooks/storeHooks.ts";
 import {CircularProgress, TablePagination} from "@mui/material";
 import {EventsTable} from "../../components/EventsTable.tsx";
 import {useModalGuard} from "../../hooks/eventHooks.ts";
+import {TODAY_END_UTC, TODAY_START_UTC} from "../../constants/appConstants.ts";
 
 export const MyDayEventsPage = () => {
 
@@ -17,8 +18,8 @@ export const MyDayEventsPage = () => {
         isPublic: undefined,
         isOrganized: false,
         isRequested: false,
-        start_date: Date.now(),
-        end_date: Date.now(),
+        start_date: TODAY_START_UTC,
+        end_date: TODAY_END_UTC,
         sort_order: "desc",
     });
     const [page, setPage] = useState<number>(0);
