@@ -20,7 +20,6 @@ export interface UserLoginRequest {
 }
 
 export interface PasswordUpdateRequest {
-    email: string;
     old_password: string;
     new_password: string;
     confirm_new_password: string;
@@ -35,6 +34,7 @@ export interface UnconfirmedUserResponse {
     email: string;
     expires_at: Date;
     next: "/users/confirm";
+    accessToken?: string; // suppresses error/warning in authSlice.ts !!!
 }
 
 export interface ConfirmedUserResponse{

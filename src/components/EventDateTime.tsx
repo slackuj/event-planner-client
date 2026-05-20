@@ -24,7 +24,8 @@ export const EventDateTime= (props: DateTimeProps) => {
         if (value && value !== dayjs(event_date)) {
             try {
                 const data = {event_date: value.valueOf()};
-                await updateEventDate({id: focusedEventId!, data});
+                await updateEventDate({id: focusedEventId!, data}).unwrap();
+                toast.success("Event DateTime updated!");
             } catch(error){
                 console.error(error);
                 toast.error(((error as any).data as ApiErrorResponse).message);

@@ -14,8 +14,8 @@ export interface User {
 }
 
 export interface UpdateUserRequest {
-    name: string;
-    profile_picture: string;
+    name?: string;
+    profile_picture?: string | null;
 }
 
 export interface AuthenticatedUser {

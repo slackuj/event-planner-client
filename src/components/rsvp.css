@@ -90,6 +90,5 @@
 .rsvp-section-container.disabled .rsvp-btn {
     cursor: not-allowed;
     opacity: 0.6;
-    background-color: #f3f2f1;
     border-color: #e1dfdd;
 }

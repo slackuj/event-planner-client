@@ -63,7 +63,7 @@ export const apiSlice = createApi({
                 url: config.endpoints.refresh,
                 method: "POST",
             }),
-            transformResponse: (response: ApiResponse<LoginResponseData>) => response.data,
+            transformResponse: (response: ApiResponse<RefreshResponseData>) => response.data,
         }),
         // endpoint for new user confirmation
         confirm: builder.mutation<{success: boolean}, UserConfirmationRequest>({

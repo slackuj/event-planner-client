@@ -15,7 +15,12 @@ import {
     useDeleteEventParticipationMutation,
     useGetAllEventParticipationQuery
 } from "../features/events/eventsSlice.ts";
-import { selectFocusedEventId, selectIsOrganizer, toggleAlertDialogModal } from "../store/slices/modalsSlice.ts";
+import {
+    selectFocusedEventId,
+    selectIsDeletingParticipant,
+    selectIsOrganizer,
+    toggleAlertDialogModal
+} from "../store/slices/modalsSlice.ts";
 import { useAppDispatch, useAppSelector } from "../hooks/storeHooks.ts";
 import { REMOVE_PARTICIPANT_DIALOG_MODAL, RSVP } from "../constants/appConstants.ts";
 import { toast } from "react-toastify";
@@ -74,11 +79,15 @@ const ParticipantsAdder = () => {
 interface ParticipantProps {
     participant: Participant;
     setFocusedParticipantId: (participantId: number | undefined) => void;
+    event_date: number;
 }
 
-const Participant = ({ participant, setFocusedParticipantId }: ParticipantProps) => {
+const Participant = (props: ParticipantProps) => {
+
+    const { participant, setFocusedParticipantId, event_date } = props;
     const dispatch = useAppDispatch();
     const isOrganizer = useAppSelector(selectIsOrganizer);
+    const isDisabled = !isOrganizer || (new Date(event_date).getTime() < Date.now());
 
     // status badge icon to render at the base of the avatar
     const renderRSVPBadge = (rsvpStatus: typeof participant.rsvp) => {
@@ -107,7 +116,7 @@ const Participant = ({ participant, setFocusedParticipantId }: ParticipantProps)
                 </Badge>
                 <span className="participant-email-text">{participant.user_email}</span>
             </span>
-            {isOrganizer && (
+            {!isDisabled && (
                 <Tooltip title="Remove participant">
                     <CloseIcon
                         className="delete-participant-btn"
@@ -122,20 +131,27 @@ const Participant = ({ participant, setFocusedParticipantId }: ParticipantProps)
     );
 };
 
-export const Participants = () => {
+interface ParticipantsProps {
+    event_date: number;
+}
+
+export const Participants = (props: ParticipantsProps) => {
+
+    const { event_date } = props;
     const isOrganizer = useAppSelector(selectIsOrganizer);
+    const isDeletingParticipant = useAppSelector(selectIsDeletingParticipant);
     const focusedEventId = useAppSelector(selectFocusedEventId);
     const [focusedParticipantId, setFocusedParticipantId] = useState<number | undefined>(undefined);
     const [deleteParticipation] = useDeleteEventParticipationMutation();
+    const isDisabled = !isOrganizer || (new Date(event_date).getTime() < Date.now());
 
-    const params = { page: 1 };
     const {
         isLoading,
         isError,
         error
-    } = useGetAllEventParticipationQuery({ event_id: focusedEventId!, params }, { skip: !focusedEventId });
+    } = useGetAllEventParticipationQuery(focusedEventId!, { skip: !focusedEventId });
 
-    const participation = useAppSelector(selectAllEventParticipation(focusedEventId!, params));
+    const participation = useAppSelector(selectAllEventParticipation(focusedEventId!));
 
     if (!focusedEventId) return null;
     if (isLoading) return <div className="loading-container"><CircularProgress /></div>;
@@ -148,14 +164,13 @@ export const Participants = () => {
     const handleDeletion = async () => {
         try {
             await deleteParticipation({ event_id: focusedEventId, user_id: focusedParticipantId! }).unwrap();
+            toast.success("Participant Removed Successfully.");
         } catch (err) {
             console.error(err);
             toast.error(((err as any).data as ApiErrorResponse).message);
         }
     };
 
-    // Generate Summary calculations for the entire collection
-    // SHOULD BE FETCHED FROM BACKEND IN ParticipationResponse !!!!
     const totalGuests = participation?.length || 0;
     const rsvpSummary = (participation || []).reduce(
         (acc, item) => {
@@ -176,7 +191,12 @@ export const Participants = () => {
     if (rsvpSummary.awaiting > 0) summaryDetails.push(`${rsvpSummary.awaiting} awaiting`);
 
     const participants = participation?.map((participant) => (
-        <Participant key={participant.id} participant={participant} setFocusedParticipantId={setFocusedParticipantId} />
+        <Participant
+            key={participant.id}
+            participant={participant}
+            setFocusedParticipantId={setFocusedParticipantId}
+            event_date={event_date}
+        />
     ));
 
     return (
@@ -189,11 +209,11 @@ export const Participants = () => {
                 </div>
             )}
 
-            {isOrganizer && <ParticipantsAdder />}
+            {!isDisabled && <ParticipantsAdder />}
             <div className="participants-list">
                 {participants}
             </div>
-            <AlertDialogModal onConfirm={handleDeletion} />
+            { !!isDeletingParticipant && <AlertDialogModal onConfirm={handleDeletion} />}
         </div>
     );
 };

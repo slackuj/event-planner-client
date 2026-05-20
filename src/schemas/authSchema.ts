@@ -30,8 +30,16 @@ export const PasswordUpdateRequestSchema = z.object({
     old_password: z.string().min(1, "Enter your current password"),
     new_password: strongPasswordSchema,
     confirm_new_password: strongPasswordSchema,
-}).refine(
-    (data) => data.new_password === data.confirm_new_password, {
-        message: "Passwords don't match",
-        path: ["confirm_password"], // This attaches the error to the confirm_password field
-    });
+})
+    .refine(
+        (data) => data.new_password === data.confirm_new_password, {
+            message: "Passwords don't match",
+            path: ["confirm_new_password"],
+        }
+    )
+    .refine(
+        (data) => data.old_password !== data.new_password, {
+            message: "New password cannot be the same as your current password",
+            path: ["new_password"],
+        }
+    );

@@ -6,6 +6,7 @@ import {
     selectAlertDialogModalTitle, selectIsAlertDialogModalOpen, toggleAlertDialogModal
 } from "../store/slices/modalsSlice.ts";
 import {useState} from "react";
+import {REINITIALIZE_DIALOG_MODAL} from "../constants/appConstants.ts";
 
 interface AlertDialogModalProps {
     onConfirm: () => Promise<void>;
@@ -20,7 +21,7 @@ export const AlertDialogModal = (props: AlertDialogModalProps) => {
     const isOpen = useAppSelector(selectIsAlertDialogModalOpen);
 
     const handleClose = () => {
-        dispatch(toggleAlertDialogModal({title: undefined, content: undefined, actionBtn: undefined}));
+        dispatch(toggleAlertDialogModal(REINITIALIZE_DIALOG_MODAL));
     };
 
     const [isLoading, setIsLoading] = useState(false);

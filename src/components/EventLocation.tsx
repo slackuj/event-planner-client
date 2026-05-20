@@ -26,8 +26,11 @@ export const EventLocation= (props: EventLocationProps) => {
     const handleLocationUpdate = async() => {
             try {
                 const data = {location_name: location};
-                await updateEventLocation({event_id: focusedEventId!, data});
+                await updateEventLocation({event_id: focusedEventId!, data}).unwrap();
+                setLocation("");
+                toast.success("Event location updated!");
             } catch(error){
+                setLocation("");
                 console.error(error);
                 toast.error(((error as any).data as ApiErrorResponse).message);
             }
@@ -59,7 +62,7 @@ let updateBtn: ReactNode;
         <div className="location-container">
             <div className="locationAdder-container">
             {
-                location_name === null
+                (location_name === null && !isDisabled)
                 ?
                     <>
                 <AddIcon className="add-location-icon" />

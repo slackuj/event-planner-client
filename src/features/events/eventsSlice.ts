@@ -5,18 +5,18 @@ import type {
     AllEventsResponse,
     CreateEventRequest, CreateEventTagRequest, EventParticipationResponse,
     EventsMetadata, EventTagResponse,
-    EventWithLocationAndOrganizer, ParticipationMetadata,
+    EventWithLocationAndOrganizer,
     ParticipationResponse, RSVP, UpdateEventLocationRequest, UpdateEventRequest
 } from "../../types/event.ts";
 import { createEntityAdapter, createSelector, type EntityState } from "@reduxjs/toolkit";
-import type {AllEventsQueryParams, EventTagsQueryParams, ParticipationQueryParams} from "../../types/QueryParams.ts";
+import type {AllEventsQueryParams, EventTagsQueryParams} from "../../types/QueryParams.ts";
 
 const eventsAdapter = createEntityAdapter<AllEventsResponse>();
 const eventsTagsAdapter = createEntityAdapter<EventTagResponse>();
 const eventsParticipationAdapter = createEntityAdapter<EventParticipationResponse>();
 
 type EventsState = EntityState<AllEventsResponse, number> & EventsMetadata;
-type ParticipationState = EntityState<EventParticipationResponse, number> & ParticipationMetadata;
+//type ParticipationState = EntityState<EventParticipationResponse, number> & ParticipationMetadata;
 
 const initialState = eventsAdapter.getInitialState<EventsMetadata>({
     totalEvents: 0,
@@ -25,12 +25,13 @@ const initialState = eventsAdapter.getInitialState<EventsMetadata>({
     limit: 4,
 });
 const eventsTagsAdaptersInitialState = eventsTagsAdapter.getInitialState();
-const eventsParticipationAdaptersInitialState = eventsParticipationAdapter.getInitialState<ParticipationMetadata>({
+const eventsParticipationAdaptersInitialState = eventsParticipationAdapter.getInitialState();
+/*const eventsParticipationAdaptersInitialState = eventsParticipationAdapter.getInitialState<ParticipationMetadata>({
     totalParticipation: 0,
     totalPages: 0,
     page: 1,
     limit: 4,
-});
+});*/
 
 export const eventsSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -40,6 +41,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
                 url: config.endpoints.events,
                 params: params,
             }),
+            keepUnusedDataFor: 900, // 15 minutes
             transformResponse: (response: ApiResponse<AllEventsResponse[]>) => {
                 return eventsAdapter.setAll(
                     {
@@ -173,7 +175,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
                     : [{ type: "EventTags", id: `${arg.event_id}-${arg.params.fetchEventOrganizersTags}` }],
         }),
         // create new event tag
-        addEventTag: builder.mutation<EventTagResponse, {event_id: number, organizer_email: string, isOrganizer: boolean, data: CreateEventTagRequest}>({
+        addEventTag: builder.mutation<EventTagResponse, {event_id: number, data: CreateEventTagRequest}>({
             query: (request) => ({
                 url: `${config.endpoints.events}/${request.event_id}/tags`,
                 method: "POST",
@@ -181,21 +183,18 @@ export const eventsSlice = apiSlice.injectEndpoints({
             }),
             transformResponse: (response: ApiResponse<EventTagResponse>) => response.data,
             // TRY TO USE SIMILAR APPROACH FOR ---->>> ADD LOCATION ENDPOINT !!!!!!!!!
-            async onQueryStarted({ event_id, organizer_email, isOrganizer }, { dispatch, queryFulfilled }) {
+            async onQueryStarted({ event_id }, { dispatch, queryFulfilled }) {
+                console.log("adding event tags...");
                 try {
                     const { data: newTag } = await queryFulfilled;
 
-                    // Target the specific "bucket" that matches the selector's parameters
                     const cacheParams = {
                         event_id,
-                        organizer_email,
-                        params: { fetchEventOrganizersTags: isOrganizer }
+                        params: { fetchEventOrganizersTags: false }
                     };
 
                     dispatch(
                         eventsSlice.util.updateQueryData('getEventTags', cacheParams, (draft) => {
-                            // This push directly affects what selectOrganizerEventTags
-                            // or selectUserEventTags returns!
                             eventsTagsAdapter.addOne(draft, newTag);
                         })
                     );
@@ -206,22 +205,20 @@ export const eventsSlice = apiSlice.injectEndpoints({
         }),
 
         // delete event tag
-        deleteEventTag: builder.mutation<{success: boolean}, { event_id: number; organizer_email: string, tag_id: number; isOrganizer: boolean }>({
+        deleteEventTag: builder.mutation<{success: boolean}, { event_id: number; tag_id: number; }>({
             query: (request) => ({
                 url: `${config.endpoints.events}/${request.event_id}/tags/${request.tag_id}`,
                 method: "DELETE",
             }),
-            async onQueryStarted({ event_id, organizer_email, tag_id, isOrganizer }, { dispatch, queryFulfilled }) {
-                // Target the same cache bucket the selector is watching
+            async onQueryStarted({ event_id, tag_id }, { dispatch, queryFulfilled }) {
+                console.log("deleting event tags...");
                 const cacheParams = {
                     event_id,
-                    organizer_email,
-                    params: { fetchEventOrganizersTags: isOrganizer }
+                    params: { fetchEventOrganizersTags: false }
                 };
 
                 const patchResult = dispatch(
                     eventsSlice.util.updateQueryData('getEventTags', cacheParams, (draft) => {
-                        // removeOne handles both the 'entities' and 'ids' array automatically
                         eventsTagsAdapter.removeOne(draft, tag_id);
                     })
                 );
@@ -240,27 +237,20 @@ export const eventsSlice = apiSlice.injectEndpoints({
          ***********************************************************************************************************/
 
         // fetch all event participants
-        getAllEventParticipation: builder.query<ParticipationState, { event_id: number, params: ParticipationQueryParams}>({
-            query: (request) => ({
-                url: `${config.endpoints.events}/${request.event_id}/participation`,
-                params: request.params,
+        getAllEventParticipation: builder.query<EntityState<EventParticipationResponse, number>, number>({
+            query: (event_id) => ({
+                url: `${config.endpoints.events}/${event_id}/participation`,
             }),
             transformResponse: (response: ApiResponse<EventParticipationResponse[]>) => {
-                return eventsParticipationAdapter.setAll(
-                    {
-                        ...eventsParticipationAdaptersInitialState,
-                        ...response.meta
-                    },
-                    response.data
-                );
+                return eventsParticipationAdapter.setAll(eventsParticipationAdaptersInitialState, response.data);
             },
             providesTags: (result, _error, arg) =>
                 result
                     ? [
                         ...result.ids.map((id) => ({ type: "EventsParticipation" as const, id })),
-                        { type: "EventsParticipation", id: `LIST-${arg.event_id}` },
+                        { type: "EventsParticipation", id: `LIST-${arg}` },
                     ]
-                    : [{ type: "EventsParticipation", id: `LIST-${arg.event_id}` }],
+                    : [{ type: "EventsParticipation", id: `LIST-${arg}` }],
         }),
 
         // get event participation by user_id
@@ -270,23 +260,51 @@ export const eventsSlice = apiSlice.injectEndpoints({
                 method: "GET",
             }),
             transformResponse: (response: ApiResponse<EventParticipationResponse>) => response.data,
-            providesTags: (_result, _error, arg) => [{ type: 'EventsParticipation', id: `USER-${arg.user_id}-EVENT-${arg.event_id}` }],
+            providesTags: (_result, _error, arg) => [{ type: 'EventsParticipation', id: `EVENT-${arg.event_id}` }],
         }),
 
         // add event participation : used by user or organizer
-        addEventParticipation: builder.mutation<EventParticipationResponse, { event_id: number; rsvp: RSVP, email?: string }>({
+        // add event participation : used by user or organizer
+        addEventParticipation: builder.mutation<ParticipationResponse, { event_id: number; rsvp: RSVP, email?: string }>({
             query: ({ event_id, rsvp, email }) => ({
                 url: `${config.endpoints.events}/${event_id}/participation`,
                 method: "POST",
                 body: { rsvp, email },
             }),
-            transformResponse: (response: ApiResponse<EventParticipationResponse>) => response.data,
-            // This invalidates every 'getAllEventParticipation' query associated with this event_id
+            transformResponse: (response: ApiResponse<ParticipationResponse>) => response.data,
+            // Invalidates the list cache once the server responds successfully
             invalidatesTags: (_result, _error, arg) => [
                 { type: 'EventsParticipation', id: `LIST-${arg.event_id}` },
-                // handle for result === undefined, such as user not exists case
-                //{ type: 'EventsParticipation', id: `USER-${result!.user_id}-EVENT-${arg.event_id}` }
+                { type: 'EventsParticipation', id: `EVENT-${arg.event_id}` }
             ],
+            /***********************************************************************************************************
+             P E S S I M I S T I C    U P D A T E    O F    C A C H E
+             ***********************************************************************************************************/
+            /*async onQueryStarted({ event_id, email }, lifecycleApi) {
+                console.log("i am here");
+                if (!email) {
+                    try {
+                        const { data: newParticipation } = await lifecycleApi.queryFulfilled;
+                        const state = lifecycleApi.getState() as RootState;
+                        const user_id = getUserId(state);
+
+                        const cacheParams = {
+                            event_id,
+                            user_id: user_id!,
+                        };
+
+                        lifecycleApi.dispatch(
+                            eventsSlice.util.upsertQueryData(
+                                'getEventParticipation',
+                                cacheParams,
+                                newParticipation
+                            )
+                        );
+                    } catch {
+                        // no rollback for pessimistic update
+                    }
+                }
+            },*/
         }),
 
         // upsert event participation : used by user or organizer
@@ -300,7 +318,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
             // This invalidates every 'getAllEventParticipation' query associated with this event_id
             invalidatesTags: (_result, _error, arg) => [
                 { type: 'EventsParticipation', id: `LIST-${arg.event_id}` },
-                { type: 'EventsParticipation', id: `USER-${arg.user_id}-EVENT-${arg.event_id}` }
+                { type: 'EventsParticipation', id: `EVENT-${arg.event_id}` }
             ],
         }),
 
@@ -313,6 +331,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: (_result, _error, arg) => [
                 { type: 'EventsParticipation', id: `LIST-${arg.event_id}` },
+                { type: 'EventsParticipation', id: `EVENT-${arg.event_id}` }
             ],
         }),
     }),
@@ -347,8 +366,8 @@ export const selectEventsResult = (params: AllEventsQueryParams) =>
 export const selectEventTagsResult = (event_id: number, params: EventTagsQueryParams) =>
     eventsSlice.endpoints.getEventTags.select({ event_id, params });
 
-export const selectAllEventParticipationResult = (event_id: number, params: ParticipationQueryParams ) =>
-    eventsSlice.endpoints.getAllEventParticipation.select({event_id, params});
+export const selectAllEventParticipationResult = (event_id: number) =>
+    eventsSlice.endpoints.getAllEventParticipation.select(event_id);
 
 
 // Base selectors for the data portion
@@ -362,8 +381,8 @@ const selectEventTagsData = (event_id: number, params: EventTagsQueryParams) => 
     (result) => result.data ?? eventsTagsAdaptersInitialState
 );
 
-const selectAllEventParticipationData = (event_id: number, params: ParticipationQueryParams) => createSelector(
-    [selectAllEventParticipationResult(event_id, params)],
+const selectAllEventParticipationData = (event_id: number) => createSelector(
+    [selectAllEventParticipationResult(event_id)],
     (result) => result.data ?? eventsParticipationAdaptersInitialState
 );
 
@@ -375,15 +394,14 @@ export const selectAllEvents = (params: AllEventsQueryParams) =>
 export const selectAllEventTags = (event_id: number, params: EventTagsQueryParams) =>
     eventsTagsAdapter.getSelectors(selectEventTagsData(event_id, params)).selectAll;
 
-export const selectAllEventParticipation = (event_id: number, params: ParticipationQueryParams) =>
-    eventsParticipationAdapter.getSelectors(selectAllEventParticipationData(event_id, params)).selectAll;
+export const selectAllEventParticipation = (event_id: number) =>
+    eventsParticipationAdapter.getSelectors(selectAllEventParticipationData(event_id)).selectAll;
 
 export const selectEventParticipationByUserId = (
     event_id: number,
-    params: ParticipationQueryParams,
     user_id: number
 ) => createSelector(
-    [selectAllEventParticipation(event_id, params)],
+    [selectAllEventParticipation(event_id)],
     (participants) => participants.find((p) => p.user_id === user_id)
 );
 
@@ -405,22 +423,3 @@ export const selectEventsTotalPagesCount = (params: AllEventsQueryParams) => cre
     [selectEventsResult(params)],
     (result) => result.data?.totalPages ?? 0
 );
-
-export const selectAllEventParticipationTotalCount = (event_id: number, params: ParticipationQueryParams) => createSelector(
-    [selectAllEventParticipationResult(event_id, params)],
-    (result) => result.data?.totalParticipation ?? 0
-);
-
-export const selectAllEventParticipationTotalPagesCount =  (event_id: number, params: ParticipationQueryParams) => createSelector(
-    [selectAllEventParticipationResult(event_id, params)],
-    (result) => result.data?.totalPages ?? 0
-)
-
-/*
-// Selector for Organizer Tags (user_id === organizer_id logic)
-export const selectOrganizerEventTags = (event_id: number) =>
-    selectAllEventTags(event_id, { fetchEventOrganizersTags: true });
-
-// Selector for User Tags (user_id !== organizer_id logic)
-export const selectUserEventTags = (event_id: number) =>
-    selectAllEventTags(event_id, { fetchEventOrganizersTags: false });*/

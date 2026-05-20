@@ -1,33 +1,51 @@
 import {NavLink} from "react-router";
 import type {ReactNode} from "react";
 import {LIST_ICON} from "./EventsToolbar.tsx";
+import {selectEventsTotalCount, useGetEventsQuery} from "../features/events/eventsSlice.ts";
+import {useAppSelector} from "../hooks/storeHooks.ts";
+import "./SideBar.css";
+import {
+    allEventsQueryParams,
+    myDayEventsQueryParams, myEventsRequestsQueryParams,
+    myOrganizingEventsQueryParams,
+    myParticipatingEventsQueryParams
+} from "../constants/appConstants.ts";
 
 export const SideBar = () => {
 
-    /*const mydayTasks = useAppSelector(selectMyDayTasksCount);
-    const importantTasks = useAppSelector(selectImportantTasksCount);
-    const plannedTasks = useAppSelector(selectPlannedTasksCount);
-    const allTasks = useAppSelector(selectAllTasksCount);*/
+    useGetEventsQuery(myDayEventsQueryParams);
+    useGetEventsQuery(myParticipatingEventsQueryParams);
+    useGetEventsQuery(myOrganizingEventsQueryParams);
+    useGetEventsQuery(myEventsRequestsQueryParams);
+    useGetEventsQuery(allEventsQueryParams);
 
-    /*let mydayTasksBadge: ReactNode;
-    let importantTasksBadge: ReactNode;
-    let plannedTasksBadge: ReactNode;
-    let allTasksBadge: ReactNode;
+    const myDayEvents = useAppSelector(selectEventsTotalCount(myDayEventsQueryParams));
+    const myParticipatingEvents = useAppSelector(selectEventsTotalCount(myParticipatingEventsQueryParams));
+    const myOrganizingEvents = useAppSelector(selectEventsTotalCount(myOrganizingEventsQueryParams));
+    const myEvents = myParticipatingEvents + myOrganizingEvents;
+    const myEventsRequests = useAppSelector(selectEventsTotalCount(myEventsRequestsQueryParams));
+    const allEvents = useAppSelector(selectEventsTotalCount(allEventsQueryParams));
 
-    if (mydayTasks > 0) {
-        mydayTasksBadge = (<span className="task-count">{mydayTasks}</span>);
-    }
-    if (importantTasks > 0) {
-        importantTasksBadge = (<span className="task-count">{importantTasks}</span>);
-    }
-    if (plannedTasks > 0) {
-        plannedTasksBadge = (<span className="task-count">{plannedTasks}</span>);
-    }
-    if (allTasks > 0) {
-        allTasksBadge = (<span className="task-count">{allTasks}</span>);
-    }*/
 
-    const pageTitle = ["My Day", "Important", "My Events", "Event Requests", "Events", "Profile"];
+    let myDayEventsBadge: ReactNode;
+    let myEventsBadge: ReactNode;
+    let myEventsRequestsBadge: ReactNode;
+    let allEventsBadge: ReactNode;
+
+    if (myDayEvents > 0) {
+        myDayEventsBadge = (<span className="event-count">{myDayEvents}</span>);
+    }
+    if (myEvents > 0) {
+        myEventsBadge = (<span className="event-count">{myEvents}</span>);
+    }
+    if (myEventsRequests > 0) {
+        myEventsRequestsBadge = (<span className="event-count">{myEventsRequests}</span>);
+    }
+    if (allEvents > 0) {
+        allEventsBadge = (<span className="event-count">{allEvents}</span>);
+    }
+
+    const pageTitle = ["My Day", "My Events", "Event Requests", "Events", "Profile"];
     let content: ReactNode;
     content = (
         <ul>
@@ -35,42 +53,34 @@ export const SideBar = () => {
                 <li>
                     <span className="page-icon">{LIST_ICON[pageTitle[0]]}</span>
                     <span className="page-title">{pageTitle[0]}</span>
-                    {/*{mydayTasksBadge}*/}
-                </li>
-            </NavLink>
-            <NavLink to="/events/important">
-                <li>
-                    <span className="page-icon">{LIST_ICON[pageTitle[1]]}</span>
-                    <span className="page-title">{pageTitle[1]}</span>
-                    {/*{importantTasksBadge}*/}
+                    {myDayEventsBadge}
                 </li>
             </NavLink>
             <NavLink to="/events/my-events">
                 <li>
-                    <span className="page-icon">{LIST_ICON[pageTitle[2]]}</span>
-                    <span className="page-title">{pageTitle[2]}</span>
-                    {/*{plannedTasksBadge}*/}
+                    <span className="page-icon">{LIST_ICON[pageTitle[1]]}</span>
+                    <span className="page-title">{pageTitle[1]}</span>
+                    {myEventsBadge}
                 </li>
             </NavLink>
             <NavLink to="/events/requests">
                 <li>
-                    <span className="page-icon">{LIST_ICON[pageTitle[3]]}</span>
-                    <span className="page-title">{pageTitle[3]}</span>
-                    {/*{plannedTasksBadge}*/}
+                    <span className="page-icon">{LIST_ICON[pageTitle[2]]}</span>
+                    <span className="page-title">{pageTitle[2]}</span>
+                    {myEventsRequestsBadge}
                 </li>
             </NavLink>
             <NavLink to="/events/all">
                 <li>
-                    <span className="page-icon">{LIST_ICON[pageTitle[4]]}</span>
-                    <span className="page-title">{pageTitle[4]}</span>
-                    {/*{allTasksBadge}*/}
+                    <span className="page-icon">{LIST_ICON[pageTitle[3]]}</span>
+                    <span className="page-title">{pageTitle[3]}</span>
+                    {allEventsBadge}
                 </li>
             </NavLink>
             <NavLink to="/my-profile">
                 <li>
-                    <span className="page-icon">{LIST_ICON[pageTitle[5]]}</span>
-                    <span className="page-title">{pageTitle[5]}</span>
-                    {/*{allTasksBadge}*/}
+                    <span className="page-icon">{LIST_ICON[pageTitle[4]]}</span>
+                    <span className="page-title">{pageTitle[4]}</span>
                 </li>
             </NavLink>
         </ul>

@@ -9,7 +9,12 @@ import {CircularProgress, TablePagination} from "@mui/material";
 import {EventsTable} from "../../components/EventsTable.tsx";
 import {useLocation} from "react-router";
 import {useModalGuard} from "../../hooks/eventHooks.ts";
-import {DEFAULT_END_DATE, DEFAULT_START_DATE} from "../../constants/appConstants.ts";
+import {
+    DEFAULT_END_DATE,
+    DEFAULT_START_DATE,
+    myOrganizingEventsQueryParams,
+    myParticipatingEventsQueryParams
+} from "../../constants/appConstants.ts";
 import {EventsFilter} from "../../components/EventsFilter.tsx";
 
 export const MyEventsPage = () => {
@@ -42,13 +47,25 @@ export const MyEventsPage = () => {
 
     const events = useAppSelector(selectAllEvents(params));
     const totalEvents = useAppSelector(selectEventsTotalCount(params));
+    const participatingEvents = useAppSelector(selectEventsTotalCount(myParticipatingEventsQueryParams));
+    const organizingEvents = useAppSelector(selectEventsTotalCount(myOrganizingEventsQueryParams));
+
+    let ParticipatingEventsBadge: ReactNode;
+    let OrganizingEventsBadge: ReactNode;
+
+    if (participatingEvents > 0) {
+        ParticipatingEventsBadge = (<span className="event-count">{participatingEvents}</span>);
+    }
+    if (organizingEvents > 0) {
+        OrganizingEventsBadge = (<span className="event-count">{organizingEvents}</span>);
+    }
 
     const TabsNode: ReactNode = (
         <nav className="events-nav">
                 <span
                     className={classNames('nav-tab', { 'active': activeTab === 'Participating' })}
                     onClick={() => {
-                        setPage(1);
+                        setPage(0);
                         setParams({
                             page: 1,
                             isParticipating: true,
@@ -63,12 +80,12 @@ export const MyEventsPage = () => {
                         setActiveTab('Participating');
                     }}
                 >
-                    Participating
+                    Participating {ParticipatingEventsBadge}
             </span>
             <span
                 className={classNames('nav-tab', { 'active': activeTab === 'Organizing' })}
                 onClick={() => {
-                    setPage(1);
+                    setPage(0);
                     setParams({
                         page: 1,
                         isParticipating: false,
@@ -82,7 +99,7 @@ export const MyEventsPage = () => {
                     setActiveTab('Organizing');
                 }}
             >
-                    Organizing
+                    Organizing {OrganizingEventsBadge}
             </span>
         </nav>
     );

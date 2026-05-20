@@ -10,7 +10,6 @@ import {
 } from "../features/events/eventsSlice.ts";
 import {
     selectFocusedEventId,
-    selectFocusedEventsOrganizersEmail,
     selectIsOrganizer
 } from "../store/slices/modalsSlice.ts";
 import {useAppSelector} from "../hooks/storeHooks.ts";
@@ -23,8 +22,6 @@ const TagsAdder = () => {
     const [tag, setTag] = useState("");
     const [addNewTag, { isLoading } ] = useAddEventTagMutation();
     const focusedEventId = useAppSelector(selectFocusedEventId);
-    const isOrganizer = useAppSelector(selectIsOrganizer);
-    const organizer_email = useAppSelector(selectFocusedEventsOrganizersEmail);
     if (!focusedEventId) return null;
 
     const handleTag = (e: ChangeEvent<HTMLInputElement>) => ( setTag(e.target.value));
@@ -33,7 +30,7 @@ const TagsAdder = () => {
             // create LocationTag component and implement capitalization there too.
             const tag_name = tag.trim().replace(/\b\w/g, c => c.toUpperCase());
             const data = { tag_name };
-        await addNewTag({event_id: focusedEventId, organizer_email: organizer_email!, isOrganizer: isOrganizer, data}).unwrap();
+        await addNewTag({event_id: focusedEventId, data}).unwrap();
         setTag("");
         } catch(err){
             setTag("");
@@ -82,13 +79,11 @@ const Tag = ({tag}: TagProps) => {
     const userId = useAppSelector(getUserId);
     const isCurrentUser = userId && userId === tag.user_id;
     const focusedEventId = useAppSelector(selectFocusedEventId);
-    const isOrganizer = useAppSelector(selectIsOrganizer);
-    const organizer_email = useAppSelector(selectFocusedEventsOrganizersEmail);
     const [ deleteTag ] = useDeleteEventTagMutation();
 
     const handleDeletion = async() => {
         try{
-            await deleteTag({ event_id: focusedEventId!, organizer_email: organizer_email!, tag_id: tag.id, isOrganizer: isOrganizer }).unwrap();
+            await deleteTag({ event_id: focusedEventId!, tag_id: tag.id}).unwrap();
         } catch(err){
             console.error(err);
             toast.error(((err as any).data as ApiErrorResponse).message);

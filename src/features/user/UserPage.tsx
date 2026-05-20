@@ -1,26 +1,25 @@
 import {
-    Avatar,
+    Avatar, Button,
     CircularProgress,
 } from "@mui/material";
-import {useAppSelector} from "../../hooks/storeHooks.ts";
+import {useAppDispatch, useAppSelector} from "../../hooks/storeHooks.ts";
 import {selectCurrentUserData, useGetMeQuery} from "./userSlice.ts";
 import {useNavigate} from "react-router";
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import "./UserPage.css";
 import {EventsToolBar} from "../../components/EventsToolbar.tsx";
 import {useModalGuard} from "../../hooks/eventHooks.ts";
-//import {UpdatePasswordModal} from "../../components/UpdatePasswordModal.tsx";
-/*import {
+import {UpdatePasswordModal} from "../../components/UpdatePasswordModal.tsx";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import {
     toggleEditUserModal,
-    togglePromotionDialog,
     toggleUpdatePasswordModal
-} from "../../store/slices/modalsSlice.ts";*/
-//import {EditUserModal} from "../../components/EditUserModal.tsx";
+} from "../../store/slices/modalsSlice.ts";
+import {EditUserModal} from "../../components/EditUserModal.tsx";
+import type {ReactNode} from "react";
 
 export const UserPage = () => {
-    //const dispatch = useAppDispatch();
-    //const { pathname } = useLocation();
-    //const isCurrentUser = pathname === "/my-profile";
+    const dispatch = useAppDispatch();
     useModalGuard();
     const navigate = useNavigate();
 
@@ -40,20 +39,16 @@ export const UserPage = () => {
         navigate("/login");
     }
 
-    /*let Settings: ReactNode;
+    let Settings: ReactNode;
         Settings = (
             <div className="settings-container">
                 <Button onClick={() => dispatch(toggleUpdatePasswordModal())} variant="contained" endIcon={<ArrowForwardIosIcon />}>
                     Update Your Password
                 </Button>
-                {/!*<Button variant="contained" endIcon={<ArrowForwardIosIcon />} onClick={() => dispatch(toggleAlertDialogModal(DELETE_ME_DIALOG_MODAL))}>
-                    Delete Your Account
-                </Button>/}
                 <UpdatePasswordModal />
                 <EditUserModal />
-                {/!*<AlertDialogModal onConfirm={handleDeleteMe} />*!/}
             </div>
-        );*/
+        );
 
     return (
 
@@ -81,27 +76,16 @@ export const UserPage = () => {
                         {
                             <div
                                 className="edit-user"
-                                /*onClick={() => dispatch(toggleEditUserModal())}*/
+                                onClick={() => dispatch(toggleEditUserModal())}
                             >
                                 <EditSquareIcon
                                 /> Edit
                             </div>}
                     </div>
-
-                    {/*<div className="user-details-grid">
-                        <div className="grid-item">
-                            <div className="label">Organization</div>
-                            <div className="value">{User.organization}</div>
-                        </div>
-                        <div className="grid-item">
-                            <div className="label">Role</div>
-                            <div className="value">{User.organizationRole}</div>
-                        </div>
-                    </div>*/}
                 </div>
             </div>
             <span className="settings">Settings</span>
-            {/*{Settings}*/}
+            {Settings}
         </div>
         </div>
     );

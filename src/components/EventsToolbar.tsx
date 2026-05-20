@@ -1,6 +1,5 @@
 import type {ReactNode} from "react";
 import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
@@ -18,7 +17,6 @@ interface EventsToolBarProps {
 
 export const LIST_ICON: Readonly<Record<string, ReactNode>> ={
     "My Day": <WbSunnyOutlinedIcon/>,
-    "Important": <StarBorderOutlinedIcon/>,
     "My Events": <FolderSharedOutlinedIcon/>,
     "Event Requests": <CollectionsBookmarkOutlinedIcon/>,
     "Events": <AnalyticsOutlinedIcon/>,
