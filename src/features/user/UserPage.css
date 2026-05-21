@@ -121,8 +121,9 @@
 
 .settings-container .MuiButton-root {
     background-color: #f8f9fa; /* Light grey background[cite: 4] */
-    border: none;
+    border: 1px solid #e0e0e0;
     color: #333;
+    margin-top: 16px;
     padding: 20px;
     justify-content: space-between; /* Label left, Arrow right[cite: 4] */
     text-transform: none;

@@ -6,7 +6,6 @@ import IconButton from '@mui/material/IconButton';
 import ViewTimelineIcon from '@mui/icons-material/ViewTimeline';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
@@ -50,12 +49,10 @@ export const ResponsiveAppBar = () => {
     if (!me) return null;
 
     return (
-        <AppBar position="static">
-            <Container maxWidth="xl">
+        <AppBar position="static" elevation={0}>
+            <Box sx={{ px: 3 }}>
                 <Toolbar disableGutters>
                     <Box
-                        component={Link}
-                        to="/dashboard"
                         sx={{
                             display: 'flex',
                             alignItems: 'center',
@@ -64,16 +61,17 @@ export const ResponsiveAppBar = () => {
                             flexGrow: 1,
                         }}
                     >
-                        <ViewTimelineIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                        <ViewTimelineIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1.5 }} />
                         <Typography
                             variant="h6"
+                            component={Link}
+                            to="/events/my-day"
                             noWrap
                             sx={{
-                                mr: 2,
                                 display: { xs: 'none', md: 'flex' },
-                                fontFamily: 'monospace',
+                                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                                 fontWeight: 700,
-                                letterSpacing: '.3rem',
+                                letterSpacing: '.05rem',
                                 color: 'inherit',
                                 textDecoration: 'none',
                             }}
@@ -113,7 +111,7 @@ export const ResponsiveAppBar = () => {
                             <MenuItem
                                 key="logout"
                                 onClick={handleLogout}
-                                disabled={isLoggingOut} // Prevent multiple clicks while loading
+                                disabled={isLoggingOut}
                                 sx={{ minWidth: 120, justifyContent: 'center' }}
                             >
                                 {isLoggingOut ? (
@@ -125,7 +123,7 @@ export const ResponsiveAppBar = () => {
                         </Menu>
                     </Box>
                 </Toolbar>
-            </Container>
+            </Box>
         </AppBar>
     );
 };

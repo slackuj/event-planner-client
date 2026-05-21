@@ -36,9 +36,9 @@ export const ResourceNotFound = () => {
                             fullWidth
                             size="large"
                             color="primary"
-                            onClick={() => navigate("/dashboard")}
+                            onClick={() => navigate("/events/my-day")}
                         >
-                            Return to Dashboard
+                            Return to Home
                         </Button>
                     </Box>
                 </Box>

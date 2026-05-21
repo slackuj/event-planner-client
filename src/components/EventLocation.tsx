@@ -8,6 +8,7 @@ import {CircularProgress, Tooltip} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import "./EventLocation.css";
+import LocationPinIcon from '@mui/icons-material/LocationPin';
 
 interface EventLocationProps {
     location_name: string | null;
@@ -61,34 +62,44 @@ let updateBtn: ReactNode;
     return (
         <div className="location-container">
             <div className="locationAdder-container">
-            {
-                (location_name === null && !isDisabled)
-                ?
-                    <>
-                <AddIcon className="add-location-icon" />
-                <input
-                    className="location-input"
-                    type="text"
-                    placeholder="Add location"
-                    value={location}
-                    onChange={handleLocation}
-                />
-                {updateBtn}
-                    </>
-                    :
-                    <>
-                <span className="location-name">{location_name}</span>
-{!isDisabled && (
-        <Tooltip title="Remove location">
-            { isDeleting ? <CircularProgress/> :
-                <CloseIcon
-                className="delete-location-btn"
-                onClick={handleDeletion}
-            />}
-        </Tooltip>
-    )}
-                    </>
-            }
+                {
+                    (location_name === null)
+                        ?
+                        <>
+                            { !isDisabled && (
+                                <>
+                                    <AddIcon className="add-location-icon" />
+                                    <input
+                                        className="location-input"
+                                        type="text"
+                                        placeholder="Add location"
+                                        value={location}
+                                        onChange={handleLocation}
+                                        onKeyDown={(e) => e.key === 'Enter' && handleLocationUpdate()}
+                                    />
+                                    {updateBtn}
+                                </>
+                            )}
+                        </>
+                        :
+                        <>
+                            <span className="location-name">
+                        <LocationPinIcon />
+                                {location_name}
+                    </span>
+
+                            {!isDisabled && (
+                                <Tooltip title="Remove location">
+                                    { isDeleting ? <CircularProgress size={16}/> :
+                                        <CloseIcon
+                                            className="delete-location-btn"
+                                            onClick={handleDeletion}
+                                        />
+                                    }
+                                </Tooltip>
+                            )}
+                        </>
+                }
             </div>
         </div>
     );

@@ -7,18 +7,16 @@
 .locationAdder-container {
     display: flex;
     align-items: center;
-    padding: 10px 16px;
+    padding: 12px 16px;
     gap: 12px;
-    border-bottom: 1px solid #f3f2f1;
-    transition: background-color 0.1s ease;
+    transition: background-color 0.15s ease;
+    box-sizing: border-box;
 }
 
-/* Hover effect on the container row when showing an active location */
 .locationAdder-container:has(.location-name):hover {
     background-color: #f3f2f1;
 }
 
-/* --- Input Bar Configurations --- */
 .location-input {
     flex: 1;
     font-size: 14px;
@@ -33,6 +31,7 @@
 .add-location-icon {
     font-size: 20px !important;
     color: #2564cf;
+    flex-shrink: 0;
 }
 
 .location-input::placeholder {
@@ -40,45 +39,49 @@
     font-weight: 400;
 }
 
-/* --- Action Buttons --- */
 .updateLocationButton {
     background: transparent;
     border: none;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    padding: 0 4px;
+    padding: 4px 8px;
     color: #2564cf;
+    border-radius: 4px;
+    transition: all 0.15s ease;
 }
 
 .updateLocationButton:hover {
-    text-decoration: underline;
+    background-color: #edf4fc;
+    color: #004578;
 }
 
-/* --- Existing Active Location View --- */
 .location-name {
     flex: 1;
     font-size: 14px;
     color: #323130;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 4px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 400;
+    word-break: break-word;
+}
+
+.location-name svg {
+    color: #605e5c;
+    font-size: 18px;
+    flex-shrink: 0;
 }
 
 .delete-location-btn {
-    color: #605e5c !important;
-    font-size: 14px !important;
-    opacity: 0; /* Hidden by default matching EventParticipation specs */
-    transition: opacity 0.2s, color 0.2s;
+    color: #605e5c;
+    font-size: 16px !important;
+    opacity: 0;
+    transition: opacity 0.2s ease, color 0.2s ease;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
-/* Reveal the close icon cleanly when the user hovers over the active layout row */
 .locationAdder-container:hover .delete-location-btn {
     opacity: 1;
-}
-
-.delete-location-btn:hover {
-    color: #a4262c !important;
 }

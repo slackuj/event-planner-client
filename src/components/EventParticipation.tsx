@@ -61,7 +61,6 @@ const ParticipantsAdder = () => {
 
     return (
         <div className="participantAdder-container">
-            <div className="participantEmail-container">
                 <AddIcon className="add-participant-icon" />
                 <input
                     className="participant-email-input"
@@ -71,7 +70,6 @@ const ParticipantsAdder = () => {
                     onChange={handleParticipantEmail}
                 />
                 {addBtn}
-            </div>
         </div>
     );
 };

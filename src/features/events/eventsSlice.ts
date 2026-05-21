@@ -86,7 +86,10 @@ export const eventsSlice = apiSlice.injectEndpoints({
             invalidatesTags: (_result, _error, arg) =>
             //[{ type: "Events", id: 'LIST'}, { type: "EventWithLocationAndOrganizer", id: arg.id }],
             // THIS SHOULD WORK FOR EVENTS CACHE, --- */*@# DO CHECK LATER...
-                [{ type: "Events", id: arg.id}],
+                [
+                    { type: "Events", id: arg.id},
+                    { type: 'Events', id: 'LIST'},
+                ],
             /***********************************************************************************************************
                             P E S S I M I S T I C    U P D A T E    O F    C A C H E
             ***********************************************************************************************************/
@@ -275,36 +278,9 @@ export const eventsSlice = apiSlice.injectEndpoints({
             // Invalidates the list cache once the server responds successfully
             invalidatesTags: (_result, _error, arg) => [
                 { type: 'EventsParticipation', id: `LIST-${arg.event_id}` },
-                { type: 'EventsParticipation', id: `EVENT-${arg.event_id}` }
+                { type: 'EventsParticipation', id: `EVENT-${arg.event_id}` },
+                { type: 'Events', id: 'LIST'},
             ],
-            /***********************************************************************************************************
-             P E S S I M I S T I C    U P D A T E    O F    C A C H E
-             ***********************************************************************************************************/
-            /*async onQueryStarted({ event_id, email }, lifecycleApi) {
-                console.log("i am here");
-                if (!email) {
-                    try {
-                        const { data: newParticipation } = await lifecycleApi.queryFulfilled;
-                        const state = lifecycleApi.getState() as RootState;
-                        const user_id = getUserId(state);
-
-                        const cacheParams = {
-                            event_id,
-                            user_id: user_id!,
-                        };
-
-                        lifecycleApi.dispatch(
-                            eventsSlice.util.upsertQueryData(
-                                'getEventParticipation',
-                                cacheParams,
-                                newParticipation
-                            )
-                        );
-                    } catch {
-                        // no rollback for pessimistic update
-                    }
-                }
-            },*/
         }),
 
         // upsert event participation : used by user or organizer
@@ -318,7 +294,8 @@ export const eventsSlice = apiSlice.injectEndpoints({
             // This invalidates every 'getAllEventParticipation' query associated with this event_id
             invalidatesTags: (_result, _error, arg) => [
                 { type: 'EventsParticipation', id: `LIST-${arg.event_id}` },
-                { type: 'EventsParticipation', id: `EVENT-${arg.event_id}` }
+                { type: 'EventsParticipation', id: `EVENT-${arg.event_id}` },
+                { type: 'Events', id: 'LIST'},
             ],
         }),
 
@@ -331,7 +308,8 @@ export const eventsSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: (_result, _error, arg) => [
                 { type: 'EventsParticipation', id: `LIST-${arg.event_id}` },
-                { type: 'EventsParticipation', id: `EVENT-${arg.event_id}` }
+                { type: 'EventsParticipation', id: `EVENT-${arg.event_id}` },
+                { type: 'Events', id: 'LIST'},
             ],
         }),
     }),

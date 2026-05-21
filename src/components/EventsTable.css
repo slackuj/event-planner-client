@@ -1,5 +1,51 @@
-.organizer-avatar{
-    display: flex;
+.organizer-avatar {
+    display: inline-flex;
     align-items: center;
     gap: 12px;
+}
+
+.event-cell {
+    cursor: pointer;
+    font-weight: 500;
+    color: #2564cf;
+    transition: color 0.15s ease, text-decoration 0.15s ease;
+}
+
+.event-cell:hover {
+    color: #004578;
+    text-decoration: underline;
+}
+
+.EventsTable-container .MuiAvatar-root {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+}
+
+.EventsTable-container .MuiTableHead-root {
+    background-color: lightgray;
+}
+
+.EventsTable-container .MuiTableHead-root .MuiTableCell-head {
+    color: #323130;
+    font-weight: 600;
+    border-bottom: 2px solid #edebe9;
+}
+
+.event-type-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 12px;
+    width: fit-content;
+}
+
+.event-type-badge.public{
+    background-color: #d0e7ff;
+    color: #0056b3;
+}
+
+.event-type-badge.private {
+    background-color: #fef3c7;
+    color: #92400e;
 }

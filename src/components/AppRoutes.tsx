@@ -17,27 +17,12 @@ export const AppRoutes = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/users/confirm" element={<ConfirmPage />} />
-            <Route
-                path="/dashboard"
-                element={
-                    <AuthenticatedRoute >
-                        <MyDayEventsPage />
-                    </AuthenticatedRoute>
-                }
-            />
-
-            <Route path="/my-profile"
-                   element={
-                       <AuthenticatedRoute>
-                           <UserPage />
-                       </AuthenticatedRoute>}
-            />
 
             <Route path="/events/my-day" element={<AuthenticatedRoute><MyDayEventsPage /></AuthenticatedRoute>}/>
             <Route path="/events/my-events" element={<AuthenticatedRoute><MyEventsPage /></AuthenticatedRoute>}/>
             <Route path="/events/requests" element={<AuthenticatedRoute><EventRequestsPage /></AuthenticatedRoute>}/>
             <Route path="/events/all" element={<AuthenticatedRoute><AllEventsPage /></AuthenticatedRoute>}/>
-
+            <Route path="/my-profile" element={<AuthenticatedRoute><UserPage /></AuthenticatedRoute>}/>
             <Route path="*" element={<ResourceNotFound/>} />
         </Routes>
     );

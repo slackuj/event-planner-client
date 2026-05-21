@@ -77,6 +77,7 @@ export const UserPage = () => {
                             <div
                                 className="edit-user"
                                 onClick={() => dispatch(toggleEditUserModal())}
+                                title="Edit Info"
                             >
                                 <EditSquareIcon
                                 /> Edit

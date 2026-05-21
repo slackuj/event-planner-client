@@ -64,7 +64,7 @@ export const LoginPage = () => {
     useEffect(() => {
         // why am i using isSuccess here? --- analyse later MAY BE TO STOP REDIRECTION OR MULTIPLE RELOAD/REDIRECTS etc ???
         if (isAuthenticated && !isSuccess) {
-            navigate('/dashboard');
+            navigate('/events/my-day');
         }
         /*if (notAuthenticated) {
             toast.info("Please login first!");

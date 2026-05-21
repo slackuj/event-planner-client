@@ -52,8 +52,8 @@ export const RegisterPage = () => {
     const onSubmit = async (data: UserRegisterRequest) => {
         try{
             const response = await registerUser(data).unwrap();
-            const { email, expiresAt } = response;
-            navigate('/users/confirm', { state: { email, expiresAt } });
+            const { email, expires_at } = response;
+            navigate('/users/confirm', { state: { email, expires_at } });
         } catch (error) {
             console.error('Failed to Register', error);
             // handle error received explicitly

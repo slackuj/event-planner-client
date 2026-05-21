@@ -44,7 +44,7 @@ export const EventRequestsPage = () => {
         }
 
     // Handle updates coming from the Filters Bar component
-    const handleFilterChanges = (updatedFilters: Partial<Pick<AllEventsQueryParams, 'start_date' | 'end_date' | 'sort_order'>>) => {
+    const handleFilterChanges = (updatedFilters: Partial<Pick<AllEventsQueryParams, 'start_date' | 'end_date' | 'sort_order' | 'isPublic'>>) => {
         setPage(0); // Reset page selection to index 0 on update
         setParams((prev) => ({
             ...prev,
@@ -61,6 +61,7 @@ export const EventRequestsPage = () => {
             start_date: DEFAULT_START_DATE,
             end_date: DEFAULT_END_DATE,
             sort_order: "desc",
+            isPublic: undefined,
             page: 1
         }));
     };
@@ -71,10 +72,12 @@ export const EventRequestsPage = () => {
                     start_date={params.start_date}
                     end_date={params.end_date}
                     sort_order={params.sort_order}
+                    isPublic={params.isPublic}
+                    isEventTypeFilterDisabled={false}
                     onFilterChange={handleFilterChanges}
                     onReset={handleResetFilters}
                 />
-                <EventsTable events={events}/>
+                <EventsTable events={events} isEventTypeColumnVisible={true}/>
                 <TablePagination
                     component="div"
                     count={totalEvents}

@@ -51,16 +51,6 @@ export const EventModal = () => {
         error
     } = useGetEventQuery(focusedEventId!, { skip: !focusedEventId });
 
-    /*const {
-        updateEventTitle,
-        updateEventNote,
-    } = useEventsUpdater();
-
-    const {
-        toggleDialogBox,
-        closeEventModal: handleCloseModal
-    } = useModal();*/
-
     if (!focusedEvent) {
         return null;
     }
@@ -75,7 +65,7 @@ export const EventModal = () => {
     }
 
    // past events are not editable
-    const isEditable = new Date(focusedEvent.event_date).getTime() > Date.now();
+    const isDisabled = !isOrganizer || (new Date(focusedEvent.event_date).getTime() < Date.now());
 
     const handleEventTitle = async(e: React.FocusEvent<HTMLHeadingElement>) => {
         const title = e.currentTarget.textContent?.trim();
@@ -125,15 +115,13 @@ export const EventModal = () => {
 
     // createPortal takes two argument: (JSX, DOM node)
     // takes JSX and renders it inside the DOM node
-    //console.log(focusedEvent.participants);
     return createPortal(
-        <div className="modal-overlay" /*onClick={handleModalClose}*/>
-            <div className="event-details" /*onClick={(e) => e.stopPropagation()}*/>
-                {/* event-title */}
+        <div className="modal-overlay">
+            <div className="event-details">
                 <div className="details-header">
                     <h2
                         className="details-header"
-                        contentEditable={isEditable && isOrganizer}
+                        contentEditable={!isDisabled}
                         suppressContentEditableWarning={true}
                         onBlur={handleEventTitle}
                     >{focusedEvent.title}</h2>
@@ -152,7 +140,7 @@ export const EventModal = () => {
                 </div>
                 <div className="event-description">
                     {
-                        isOrganizer
+                        !isDisabled
                             ?
                             <textarea
                                 key={focusedEvent.id}

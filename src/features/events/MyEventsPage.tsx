@@ -4,7 +4,7 @@ import type {AllEventsQueryParams} from "../../types/QueryParams.ts";
 import classNames from "classnames";
 import "./MyEventsPage.css";
 import {selectAllEvents, selectEventsTotalCount, useGetEventsQuery} from "./eventsSlice.ts";
-import {useAppSelector} from "../../hooks/storeHooks.ts";
+import {useAppDispatch, useAppSelector} from "../../hooks/storeHooks.ts";
 import {CircularProgress, TablePagination} from "@mui/material";
 import {EventsTable} from "../../components/EventsTable.tsx";
 import {useLocation} from "react-router";
@@ -12,15 +12,15 @@ import {useModalGuard} from "../../hooks/eventHooks.ts";
 import {
     DEFAULT_END_DATE,
     DEFAULT_START_DATE,
-    myOrganizingEventsQueryParams,
-    myParticipatingEventsQueryParams
 } from "../../constants/appConstants.ts";
 import {EventsFilter} from "../../components/EventsFilter.tsx";
+import {toggleEventModal} from "../../store/slices/modalsSlice.ts";
 
 export const MyEventsPage = () => {
 
     useModalGuard();
     const location = useLocation();
+    const dispatch = useAppDispatch();
     const isNewEvent = location.state?.isNewEvent as Boolean | undefined;
     type Tabs = "Participating" | "Organizing";
 
@@ -47,24 +47,25 @@ export const MyEventsPage = () => {
 
     const events = useAppSelector(selectAllEvents(params));
     const totalEvents = useAppSelector(selectEventsTotalCount(params));
-    const participatingEvents = useAppSelector(selectEventsTotalCount(myParticipatingEventsQueryParams));
-    const organizingEvents = useAppSelector(selectEventsTotalCount(myOrganizingEventsQueryParams));
+    //const participatingEvents = useAppSelector(selectEventsTotalCount(myParticipatingEventsQueryParams));
+    //const organizingEvents = useAppSelector(selectEventsTotalCount(myOrganizingEventsQueryParams));
 
-    let ParticipatingEventsBadge: ReactNode;
-    let OrganizingEventsBadge: ReactNode;
+    //let ParticipatingEventsBadge: ReactNode;
+    //let OrganizingEventsBadge: ReactNode;
 
-    if (participatingEvents > 0) {
+    /*if (participatingEvents > 0) {
         ParticipatingEventsBadge = (<span className="event-count">{participatingEvents}</span>);
     }
     if (organizingEvents > 0) {
         OrganizingEventsBadge = (<span className="event-count">{organizingEvents}</span>);
-    }
+    }*/
 
     const TabsNode: ReactNode = (
         <nav className="events-nav">
                 <span
                     className={classNames('nav-tab', { 'active': activeTab === 'Participating' })}
                     onClick={() => {
+                        dispatch(toggleEventModal({focusedEventId: undefined, focusedEventsOrganizersEmail: undefined}));
                         setPage(0);
                         setParams({
                             page: 1,
@@ -80,11 +81,12 @@ export const MyEventsPage = () => {
                         setActiveTab('Participating');
                     }}
                 >
-                    Participating {ParticipatingEventsBadge}
+                    Participating {/*{ParticipatingEventsBadge}*/}
             </span>
             <span
                 className={classNames('nav-tab', { 'active': activeTab === 'Organizing' })}
                 onClick={() => {
+                    dispatch(toggleEventModal({focusedEventId: undefined, focusedEventsOrganizersEmail: undefined}));
                     setPage(0);
                     setParams({
                         page: 1,
@@ -99,7 +101,7 @@ export const MyEventsPage = () => {
                     setActiveTab('Organizing');
                 }}
             >
-                    Organizing {OrganizingEventsBadge}
+                    Organizing {/*{OrganizingEventsBadge}*/}
             </span>
         </nav>
     );
@@ -111,7 +113,7 @@ export const MyEventsPage = () => {
     }
 
 // Handle updates coming from the Filters Bar component
-    const handleFilterChanges = (updatedFilters: Partial<Pick<AllEventsQueryParams, 'start_date' | 'end_date' | 'sort_order'>>) => {
+    const handleFilterChanges = (updatedFilters: Partial<Pick<AllEventsQueryParams, 'start_date' | 'end_date' | 'sort_order' | 'isPublic'>>) => {
         setPage(0); // Reset page selection to index 0 on update
         setParams((prev) => ({
             ...prev,
@@ -128,6 +130,7 @@ export const MyEventsPage = () => {
             start_date: DEFAULT_START_DATE,
             end_date: DEFAULT_END_DATE,
             sort_order: "desc",
+            isPublic: undefined,
             page: 1
         }));
     };
@@ -138,10 +141,12 @@ export const MyEventsPage = () => {
                 start_date={params.start_date}
                 end_date={params.end_date}
                 sort_order={params.sort_order}
+                isPublic={params.isPublic}
+                isEventTypeFilterDisabled={false}
                 onFilterChange={handleFilterChanges}
                 onReset={handleResetFilters}
             />
-            <EventsTable events={events}/>
+            <EventsTable events={events} isEventTypeColumnVisible={true}/>
             <TablePagination
                 component="div"
                 count={totalEvents}

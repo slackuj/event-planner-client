@@ -1,19 +1,11 @@
 import {NavLink} from "react-router";
 import type {ReactNode} from "react";
 import {LIST_ICON} from "./EventsToolbar.tsx";
-import {selectEventsTotalCount, useGetEventsQuery} from "../features/events/eventsSlice.ts";
-import {useAppSelector} from "../hooks/storeHooks.ts";
 import "./SideBar.css";
-import {
-    allEventsQueryParams,
-    myDayEventsQueryParams, myEventsRequestsQueryParams,
-    myOrganizingEventsQueryParams,
-    myParticipatingEventsQueryParams
-} from "../constants/appConstants.ts";
 
 export const SideBar = () => {
 
-    useGetEventsQuery(myDayEventsQueryParams);
+    /*useGetEventsQuery(myDayEventsQueryParams);
     useGetEventsQuery(myParticipatingEventsQueryParams);
     useGetEventsQuery(myOrganizingEventsQueryParams);
     useGetEventsQuery(myEventsRequestsQueryParams);
@@ -43,7 +35,7 @@ export const SideBar = () => {
     }
     if (allEvents > 0) {
         allEventsBadge = (<span className="event-count">{allEvents}</span>);
-    }
+    }*/
 
     const pageTitle = ["My Day", "My Events", "Event Requests", "Events", "Profile"];
     let content: ReactNode;
@@ -53,28 +45,28 @@ export const SideBar = () => {
                 <li>
                     <span className="page-icon">{LIST_ICON[pageTitle[0]]}</span>
                     <span className="page-title">{pageTitle[0]}</span>
-                    {myDayEventsBadge}
+                    {/*{myDayEventsBadge}*/}
                 </li>
             </NavLink>
             <NavLink to="/events/my-events">
                 <li>
                     <span className="page-icon">{LIST_ICON[pageTitle[1]]}</span>
                     <span className="page-title">{pageTitle[1]}</span>
-                    {myEventsBadge}
+                    {/*{myEventsBadge}*/}
                 </li>
             </NavLink>
             <NavLink to="/events/requests">
                 <li>
                     <span className="page-icon">{LIST_ICON[pageTitle[2]]}</span>
                     <span className="page-title">{pageTitle[2]}</span>
-                    {myEventsRequestsBadge}
+                    {/*{myEventsRequestsBadge}*/}
                 </li>
             </NavLink>
             <NavLink to="/events/all">
                 <li>
                     <span className="page-icon">{LIST_ICON[pageTitle[3]]}</span>
                     <span className="page-title">{pageTitle[3]}</span>
-                    {allEventsBadge}
+                    {/*{allEventsBadge}*/}
                 </li>
             </NavLink>
             <NavLink to="/my-profile">

@@ -46,7 +46,7 @@ export interface ConfirmedUserResponse{
         profile_picture: string;
         updated_at?: Date;
     };
-    next: "/dashboard";
+    next: "/events/my-day";
 }
 
 export type LoginResponseData  = UnconfirmedUserResponse | ConfirmedUserResponse;

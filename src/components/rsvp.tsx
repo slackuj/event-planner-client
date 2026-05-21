@@ -25,7 +25,7 @@ export const EventRSVP = ({ event_date }: RsvpProps) => {
 
     const isPastEvent = new Date(event_date).getTime() < Date.now();
 
-    // Fetch this specific user's participation status
+    // Fetch user's participation status
     const { data: participation, isLoading: isFetching } = useGetEventParticipationQuery(
         { event_id: focusedEventId!, user_id: currentUserId! },
         { skip: !focusedEventId || !currentUserId }
@@ -76,6 +76,7 @@ export const EventRSVP = ({ event_date }: RsvpProps) => {
                 <button
                     className={`rsvp-btn yes ${participation.rsvp === RsvpStatus.YES ? "active" : ""}`}
                     onClick={() => handleRsvpChange(RsvpStatus.YES)}
+                    title="Respond YES"
                     disabled={isDisabled || isUpdating || participation.rsvp === RsvpStatus.YES}
                     type="button"
                 >
@@ -86,6 +87,7 @@ export const EventRSVP = ({ event_date }: RsvpProps) => {
                 <button
                     className={`rsvp-btn maybe ${participation.rsvp === RsvpStatus.MAYBE ? "active" : ""}`}
                     onClick={() => handleRsvpChange(RsvpStatus.MAYBE)}
+                    title="Respond MAYBE"
                     disabled={isDisabled || isUpdating || participation.rsvp === RsvpStatus.MAYBE}
                     type="button"
                 >
@@ -96,6 +98,7 @@ export const EventRSVP = ({ event_date }: RsvpProps) => {
                 <button
                     className={`rsvp-btn no ${participation.rsvp === RsvpStatus.NO ? "active" : ""}`}
                     onClick={() => handleRsvpChange(RsvpStatus.NO)}
+                    title="Respond NO"
                     disabled={isDisabled || isUpdating || participation.rsvp === RsvpStatus.NO}
                     type="button"
                 >

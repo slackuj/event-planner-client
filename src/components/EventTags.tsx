@@ -27,7 +27,6 @@ const TagsAdder = () => {
     const handleTag = (e: ChangeEvent<HTMLInputElement>) => ( setTag(e.target.value));
     const handleAddNewTag = async () => {
         try{
-            // create LocationTag component and implement capitalization there too.
             const tag_name = tag.trim().replace(/\b\w/g, c => c.toUpperCase());
             const data = { tag_name };
         await addNewTag({event_id: focusedEventId, data}).unwrap();
@@ -41,7 +40,6 @@ const TagsAdder = () => {
     };
 
     let addBtn: ReactNode;
-    // addBtn should be displayed if tag === valid_email, can i use zod schema here?
     if (tag.trim() !== "") {
         addBtn = (
             <button
@@ -56,7 +54,6 @@ const TagsAdder = () => {
 
     return (
         <div className="tagAdder-container">
-            <div className="tag-container">
                 <AddIcon className="add-tag-icon" />
                 <input
                     className="tag-input"
@@ -66,7 +63,6 @@ const TagsAdder = () => {
                     onChange={handleTag}
                 />
                 {addBtn}
-            </div>
         </div>
     );
 };
@@ -84,6 +80,7 @@ const Tag = ({tag}: TagProps) => {
     const handleDeletion = async() => {
         try{
             await deleteTag({ event_id: focusedEventId!, tag_id: tag.id}).unwrap();
+            toast.success("Tag Deleted!");
         } catch(err){
             console.error(err);
             toast.error(((err as any).data as ApiErrorResponse).message);
@@ -148,8 +145,8 @@ export const Tags = () => {
             <div className="organizer-tag-container">
                 {organizerTags}
             </div>
+            <TagsAdder />
             <div className="user-tag-container">
-                <TagsAdder />
                 {userTags}
             </div>
         </div>

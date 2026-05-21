@@ -43,7 +43,7 @@ export const MyDayEventsPage = () => {
 
     const eventTable: ReactNode = (
         <>
-            <EventsTable events={events}/>
+            <EventsTable events={events} isEventTypeColumnVisible={true}/>
             <TablePagination
                 component="div"
                 count={totalEvents}
