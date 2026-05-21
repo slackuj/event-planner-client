@@ -6,31 +6,43 @@ This project demonstrates practical full-stack development skills in a real-worl
 # FEATURES
 This project provides following features:<br>
 <br>**Event Management**<br>
-create, edit, delte, join events <br>
-rsvp, tags<br>
-surf events, filter events, public events, private events<br>
-manage event participants<br>
+* create, edit, delte, join events <br>
+* rsvp, tags<br>
+* surf events, filter events, public events, private events<br>
+* manage event participants<br>
+
 <br>**Authentication & Authorization**<br>
-user signup and login<br>
-secure authentication using JWT<br>
-authorization<br>
-email verification<br>
+* user signup and login<br>
+* secure authentication using JWT<br>
+* authorization<br>
+* email verification<br>
 
 # TECH STACK
 <br>**Frontend**<br>
-React, Typescript, Redux Toolkit<br>
+* React
+* TypeScript
+* Redux Toolkit (Global State Management)
+* RTK Query (Advanced Data Fetching & Cache Management)
+
 <br>**Backend**<br>
-Node.js, Express, Typescript<br>
+* Node.js
+* Express
+* Typescript
+
 <br>**Database**<br>
-MYSQL<br>
+* MYSQL
+
 <br>**Query Builder**<br>
-Knex.js<br>
+* Knex.js
+
 <br>**Local DB Service**<br>
-Docker Compose<br>
+* Docker Compose
+
 <br>**Email Service**<br>
-Sendgrid<br>
+* Sendgrid
+
 <br>**Media**<br>
-Cloudinary<br>
+* Cloudinary
 
 # FRONTEND
 The frontend of this project is hosted at: https://github.com/slackuj/event-planner-client<br>
