@@ -22,7 +22,7 @@ This project provides following features:<br>
 * React
 * TypeScript
 * Redux Toolkit (Global State Management)
-* RTK Query (Advanced Data Fetching & Cache Management)
+* RTK Query (Data Fetching & Cache Management)
 
 <br>**Backend**<br>
 * Node.js
