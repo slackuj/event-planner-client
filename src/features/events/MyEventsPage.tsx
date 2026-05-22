@@ -21,7 +21,7 @@ export const MyEventsPage = () => {
     useModalGuard();
     const location = useLocation();
     const dispatch = useAppDispatch();
-    const isNewEvent = location.state?.isNewEvent as Boolean | undefined;
+    const isNewEvent = location.state?.isNewEvent as boolean | undefined;
     type Tabs = "Participating" | "Organizing";
 
     const [activeTab, setActiveTab] = useState<Tabs>(!!isNewEvent ? "Organizing": "Participating");

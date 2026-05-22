@@ -187,7 +187,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
             transformResponse: (response: ApiResponse<EventTagResponse>) => response.data,
             // TRY TO USE SIMILAR APPROACH FOR ---->>> ADD LOCATION ENDPOINT !!!!!!!!!
             async onQueryStarted({ event_id }, { dispatch, queryFulfilled }) {
-                console.log("adding event tags...");
+                //console.log("adding event tags...");
                 try {
                     const { data: newTag } = await queryFulfilled;
 
@@ -214,7 +214,7 @@ export const eventsSlice = apiSlice.injectEndpoints({
                 method: "DELETE",
             }),
             async onQueryStarted({ event_id, tag_id }, { dispatch, queryFulfilled }) {
-                console.log("deleting event tags...");
+                //console.log("deleting event tags...");
                 const cacheParams = {
                     event_id,
                     params: { fetchEventOrganizersTags: false }

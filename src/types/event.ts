@@ -53,7 +53,7 @@ export interface CreateEventData extends Omit<Event, 'id' | 'location_id'> {
 
 // client request
 export interface CreateEventRequestForm {
-    location_name: string | null;
+    location_name?: string | null | undefined;
     title: string;
     description: string;
     event_date: string;
@@ -61,7 +61,7 @@ export interface CreateEventRequestForm {
 }
 
 export interface CreateEventRequest {
-    location_name: string | null;
+    location_name?: string | null | undefined;
     title: string;
     description: string;
     event_date: number;

@@ -48,7 +48,7 @@ export const LoginPage = () => {
             //console.log(response);
             if ("expires_at" in response) {
                 const { email, expires_at } = response as UnconfirmedUserResponse ;
-                console.log("i am here");
+                //console.log("i am here");
             navigate(response.next, { state: { email, expires_at } });
             }
             else if ("accessToken" in response) {

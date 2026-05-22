@@ -22,7 +22,7 @@ export const App = () => {
             try{
                 await refreshUser().unwrap();
             } catch (error) {
-                console.log("session expired");
+                console.error("session expired");
             }
         };
         if (!isAuthenticated && isSessionPersisted) {

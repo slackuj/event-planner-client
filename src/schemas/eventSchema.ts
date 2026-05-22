@@ -3,6 +3,7 @@ import { z } from "zod";
 /**
  * Schema for creating a new event
  */
+
 export const CreateEventRequestSchema = z.object({
     title: z.string()
         .min(5, "Title must be at least 5 characters long")
@@ -12,18 +13,29 @@ export const CreateEventRequestSchema = z.object({
         .max(1000, "Description is too long"),
     event_date: z.string(),
     is_public: z.boolean(),
-    location_name: z.string()
-        .min(5, "Location must be at least 5 characters long")
-        .max(255, "Location is too long")
-        .nullable(),
+    location_name: z.string().nullable().optional(),
+}).superRefine((data, ctx) => {
+    const val = data.location_name;
+
+    // Check if location_name exists and contains actual text (ignoring whitespace)
+    if (val !== null && val !== undefined && val.trim() !== "") {
+        if (val.length < 5) {
+            ctx.addIssue({
+                code: "custom",
+                message: "Location must be at least 5 characters long",
+                path: ["location_name"],
+            });
+        }
+        if (val.length > 255) {
+            ctx.addIssue({
+                code: "custom",
+                message: "Location is too long",
+                path: ["location_name"],
+            });
+        }
+    }
 });
 
-/**
- * Schema for updating core event details
- */
-export const UpdateEventRequestSchema = CreateEventRequestSchema.partial().omit({
-    location_name: true
-});
 
 /**
  * Schema for updating an event's location specifically
