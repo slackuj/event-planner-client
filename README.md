@@ -89,13 +89,16 @@ npm install
 in both frontend and backend<br>
 
 4. Start Docker Compose and Perform Database Seeding
+> command for starting docker compose may differ for you based on your environment and user privileges. 
+>
+> make sure to check and do update script in server > package.json for running docker compose
 ```bash
 cd event-planner-server
 npm run docker:up
 npm run migrate:latest
 npm run db:seed
 ```
-> If it is not your first attemt for migration, You may need to run `npm run migrate:rollback` before `npm run migrate:latest`.
+> If it is not your first attempt for migration, You may need to run `npm run migrate:rollback` before `npm run migrate:latest`.
 > 
 > You need to run migration and seeding only once !
 
