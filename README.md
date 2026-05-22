@@ -117,7 +117,7 @@ npm run start
 cd event-planner-client
 npm run dev
 ```
-<br>**Project should be up and running on your FRONTEND_ORIGIN**<br>
+<br>**Event Planner should be up and running on your FRONTEND_ORIGIN**<br>
 # BUGS 
 Please report any bugs and issues here in this repository or to slackuj@gmail.com.
 
