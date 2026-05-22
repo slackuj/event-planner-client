@@ -2,7 +2,7 @@
     max-width: 1000px;
     margin: 0 auto;
     padding: 40px 20px;
-    font-family: 'Inter', sans-serif; /* Aiming for the clean look in image */
+    font-family: 'Inter', sans-serif;
 }
 
 .page-container h1 {
@@ -11,14 +11,13 @@
     margin-bottom: 24px;
 }
 
-/* Main Profile Card */
 .profile-container {
     background: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 32px;
     margin-bottom: 32px;
-    position: relative; /* For positioning the Edit button */
+    position: relative;
 }
 
 .user-info-section {
@@ -36,7 +35,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: transparent; /* Ensure background doesn't block image */
+    background-color: transparent;
     overflow: hidden;
 }
 
@@ -46,7 +45,7 @@
 }
 
 .user-role {
-    background-color: #d0e7ff; /* Light blue pill[cite: 4] */
+    background-color: #d0e7ff;
     color: #0056b3;
     font-size: 0.75rem;
     font-weight: 600;
@@ -82,16 +81,14 @@
 }
 
 
-/* Edit Button Positioned like image[cite: 4] */
 .edit-btn {
     position: absolute;
     right: 32px;
-    bottom: 45%; /* Centered vertically relative to text[cite: 4] */
+    bottom: 45%;
     text-transform: none;
     color: #333;
 }
 
-/* Tabs Styling */
 .profile-nav {
     border-bottom: 1px solid #e0e0e0;
     margin-bottom: 24px;
@@ -109,10 +106,9 @@
 
 .profile-nav span.active {
     color: #000;
-    border-bottom-color: #000; /* Black underline for active tab[cite: 4] */
+    border-bottom-color: #000;
 }
 
-/* Settings Grid - 2 Column Layout[cite: 4] */
 .settings-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -120,12 +116,12 @@
 }
 
 .settings-container .MuiButton-root {
-    background-color: #f8f9fa; /* Light grey background[cite: 4] */
+    background-color: #f8f9fa;
     border: 1px solid #e0e0e0;
     color: #333;
     margin-top: 16px;
     padding: 20px;
-    justify-content: space-between; /* Label left, Arrow right[cite: 4] */
+    justify-content: space-between;
     text-transform: none;
     border-radius: 4px;
     box-shadow: none;

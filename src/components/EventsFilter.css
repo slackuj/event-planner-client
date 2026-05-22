@@ -12,7 +12,6 @@
     border: 1px solid #edebe9;
 }
 
-/* Grouping input controls together */
 .filter-group {
     display: flex;
     align-items: center;

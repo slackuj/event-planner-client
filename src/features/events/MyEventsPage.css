@@ -1,4 +1,3 @@
-/* Container for the tabs */
 .events-nav {
     display: flex;
     gap: 2rem;
@@ -8,11 +7,10 @@
     padding-bottom: 0;
 }
 
-/* Base style for each tab */
 .nav-tab {
     display: inline-flex;
     align-items: center;
-    gap: 8px; /* Spaces out text and badge counts */
+    gap: 8px;
     font-size: 1rem;
     font-weight: 500;
     color: #666;
@@ -23,17 +21,14 @@
     user-select: none;
 }
 
-/* Hover effect for inactive tabs */
 .nav-tab:hover {
     color: #000;
 }
 
-/* Active tab styling */
 .nav-tab.active {
     color: #1a73e8;
 }
 
-/* Bottom border indicator for the active tab */
 .nav-tab.active::after {
     content: '';
     position: absolute;
@@ -45,7 +40,6 @@
     border-radius: 3px 3px 0 0;
 }
 
-/* Inner Page Nav-Tab Notification Badges */
 .nav-tab .event-count {
     background-color: #f1f3f4;
     color: #5f6368;
@@ -56,7 +50,6 @@
     transition: all 0.2s ease-in-out;
 }
 
-/* Match badge accents with the active dynamic text color */
 .nav-tab.active .event-count {
     background-color: #e8f0fe;
     color: #1a73e8;
