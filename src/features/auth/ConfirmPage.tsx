@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { useConfirmMutation, useResendConfirmationCodeMutation } from "../../api/apiSlice.ts";
 import {useModalGuard} from "../../hooks/eventHooks.ts";
+import {useAppSelector} from "../../hooks/storeHooks.ts";
+import {getUserAuth} from "./authSlice.ts";
 
 export const ConfirmPage = () => {
     useModalGuard();
@@ -12,21 +14,24 @@ export const ConfirmPage = () => {
     const navigate = useNavigate();
     const [verify, { isLoading }] = useConfirmMutation();
     const [resendCode, { isLoading: isResending }] = useResendConfirmationCodeMutation();
-
-    // 1. Guard Clause Fix: Check data immediately
-    useEffect(() => {
-        if (!location.state?.email) {
-            toast.info("Please register first!");
-            navigate("/register");
-        }
-    }, [location.state, navigate]);
-
-    // Don't render or access state if it doesn't exist
-    if (!location.state?.email) return null;
+    const isAuthenticated = useAppSelector(getUserAuth);
 
     const email: string = location.state.email;
     const expires_at: number = location.state.expires_at;
     const [_expiry, setExpiry] = useState(expires_at);
+
+    //  Guard Clause  immediately
+    useEffect(() => {
+        if (!location.state?.email) {
+            !isAuthenticated && toast.info("Please register first!");
+            isAuthenticated ? navigate("/events/my-day"): navigate("/register");
+        }
+    }, [location.state, navigate, isAuthenticated]);
+
+    // Don't render or access state if it doesn't exist
+    if (!location.state?.email) return null;
+
+
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: { code: "" }

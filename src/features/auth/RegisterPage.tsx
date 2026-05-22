@@ -21,11 +21,14 @@ import type {UserRegisterRequest} from "../../types/auth.ts";
 import * as React from "react";
 import {Visibility, VisibilityOff } from "@mui/icons-material";
 import {useModalGuard} from "../../hooks/eventHooks.ts";
+import {useAppSelector} from "../../hooks/storeHooks.ts";
+import {getUserAuth} from "./authSlice.ts";
 
 export const RegisterPage = () => {
     useModalGuard();
     const [registerUser, { isLoading}] = useRegisterMutation();
     const navigate = useNavigate();
+    const isAuthenticated = useAppSelector(getUserAuth);
 
     const {
         handleSubmit,
@@ -37,7 +40,11 @@ export const RegisterPage = () => {
         mode: "onChange"
     });
 
+
     const [showPassword, setShowPassword] = useState(false);
+    if (isAuthenticated) {
+        navigate("/events/my-day");
+    }
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
