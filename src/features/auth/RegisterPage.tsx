@@ -1,5 +1,5 @@
 import {useRegisterMutation} from "../../api/apiSlice.ts";
-import {type ReactNode, useState} from "react";
+import {type ReactNode, useEffect, useState} from "react";
 import {useNavigate} from "react-router";
 import {
     Box,
@@ -42,9 +42,12 @@ export const RegisterPage = () => {
 
 
     const [showPassword, setShowPassword] = useState(false);
-    if (isAuthenticated) {
+
+    useEffect(() => {
+        if (isAuthenticated) {
         navigate("/events/my-day");
     }
+    }, [isAuthenticated]);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -118,9 +121,9 @@ export const RegisterPage = () => {
                 )}
                             </FormControl>
             <FormControl  variant="outlined" fullWidth>
-                                <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                                <InputLabel htmlFor="outlined-adornment-confirm-password">Confirm Password</InputLabel>
                                 <OutlinedInput
-                                    id="outlined-adornment-password"
+                                    id="outlined-adornment-confirm-password"
                                     type={showPassword ? 'text' : 'password'}
                                     {...register("confirm_password")}
                                     endAdornment={

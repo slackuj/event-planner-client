@@ -16,8 +16,8 @@ export const ConfirmPage = () => {
     const [resendCode, { isLoading: isResending }] = useResendConfirmationCodeMutation();
     const isAuthenticated = useAppSelector(getUserAuth);
 
-    const email: string = location.state.email;
-    const expires_at: number = location.state.expires_at;
+    const email: string = location.state?.email;
+    const expires_at: number = location.state?.expires_at;
     const [_expiry, setExpiry] = useState(expires_at);
 
     //  Guard Clause  immediately
