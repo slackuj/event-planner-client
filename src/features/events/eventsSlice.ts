@@ -386,10 +386,6 @@ export const selectEventParticipationByUserId = (
 export const selectCurrentUserEventParticipation = (event_id: number, user_id: number) =>
     eventsSlice.endpoints.getEventParticipation.select({ event_id, user_id });
 
-// Example usage in a component:
-// const { data: myParticipation } = useGetEventParticipationQuery({ event_id, user_id: currentUser.id });
-
-
 // Selector for Counts
 
 export const selectEventsTotalCount = (params: AllEventsQueryParams) => createSelector(
