@@ -31,10 +31,12 @@ export const baseQueryWithReAuth: BaseQueryFn<
     unknown, // type for expected result
     FetchBaseQueryError // type for the error
 > = async( args, api, extraOptions) => {
+
+    const isSessionPersisted = (api.getState() as RootState).auth.isSessionPersisted;
     // wait until the mutex is available without locking it
     await mutex.waitForUnlock();
     let result = await baseQuery(args, api, extraOptions);
-    if (result.error && result.error.status === httpCodes.UNAUTHORIZED.statusCode) {
+    if (result.error && result.error.status === httpCodes.UNAUTHORIZED.statusCode && isSessionPersisted) {
         // checking whether the mutex is locked
         if (!mutex.isLocked()) {
             const release = await mutex.acquire();
