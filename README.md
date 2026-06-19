@@ -73,7 +73,7 @@ The following lines of codes are for Ubuntu 25.10.<br>
 These should be similar for other environments.<br>
 <br>
 > You can use npx degit for cloning if you don't want to copy the git history !!!<br>
-1. Clone project root repository: <br>
+1. Clone this repository: <br>
 ```bash
 git clone https://github.com/slackuj/event-planner.git
 cd event-planner
