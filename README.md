@@ -73,27 +73,27 @@ The following lines of codes are for Ubuntu 25.10.<br>
 These should be similar for other environments.<br>
 <br>
 > You can use npx degit for cloning if you don't want to copy the git history !!!<br>
-1. Clone this repository: <br>
+1. Clone project roo repository: <br>
 ```bash
 git clone https://github.com/slackuj/event-planner.git
 cd event-planner
 ```
-1. Clone Frontend inside event-planner-client directory: <br>
+2. Clone Frontend inside event-planner-client directory: <br>
 ```bash
 git clone https://github.com/slackuj/event-planner-client.git
 cd event-planner-client
 npm install
 ```
-2. Clone Backend inside event-planner-server directory: <br>
+3. Clone Backend inside event-planner-server directory: <br>
 ```bash
 git clone https://github.com/slackuj/event-planner-server.git
 cd event-planner-server
 npm install
 ```
-3. Set up all required environment variables as specified in `.env.example` file into `.env` file<br>
+4. Set up all required environment variables as specified in `.env.example` file into `.env` file<br>
 in both frontend, backend, and project root.<br>
 
-4. Start Docker Compose and Perform Database Seeding
+5. Start Docker Compose and Perform Database Seeding
 > command for starting docker compose may differ for you based on your environment and user privileges. 
 >
 > make sure to check and do update script in server > package.json for running docker compose
