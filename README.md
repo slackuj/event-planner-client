@@ -58,7 +58,7 @@ This project provides following features:<br>
 # FRONTEND
 The frontend of this project is hosted at: https://github.com/slackuj/event-planner-client<br>
 # BACKEND
-The backend of this project is hosted at: https://github.com/slackuj/event-planner-server/tree/master<br>
+The backend of this project is hosted at: https://github.com/slackuj/event-planner-server<br>
 
 # REQUIREMENTS
 1. Docker Compose<br>
