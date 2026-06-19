@@ -78,6 +78,7 @@ These should be similar for other environments.<br>
 git clone https://github.com/slackuj/event-planner.git
 cd event-planner
 ```
+> You do not need to run `npm install` if you only want to run the project !!!
 2. Clone Frontend inside event-planner-client directory: <br>
 ```bash
 git clone https://github.com/slackuj/event-planner-client.git
